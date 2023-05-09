@@ -332,10 +332,11 @@ route.get('/home', async(req,res) => {
     var nama = req.session.name;
     var noID = req.session.noID;
     var idRole = req.session.role;
+    var namaRole = req.session.namaRole;
     if(req.session.loggedin){
         if(idRole == 3){
             res.render('home', {
-                nama, noID, idRole
+                nama, noID, idRole, namaRole
             });
         }
         else{
@@ -937,7 +938,7 @@ route.post('/',express.urlencoded(), async(req,res) => {
     const cekUser = checkLogin(conn,npm,password)
     var npm = req.body.user;
     var password = req.body.pass;
-    var sql = `SELECT * FROM users WHERE npm ='${npm}' AND pwd ='${password}'`;
+    var sql = `SELECT * FROM users INNER JOIN role ON users.idRole = role.idRole WHERE npm ='${npm}' AND pwd ='${password}'`;
     conn.query(sql, [npm,password], (err, results)=>{
         if(err) throw err;
         if(results.length > 0){
@@ -946,6 +947,7 @@ route.post('/',express.urlencoded(), async(req,res) => {
             req.session.name = results[0].nama;
             req.session.noID = results[0].npm;
             req.session.role = results[0].idRole;
+            req.session.namaRole = results[0].namaRole;
             if(results[0].roles == "Admin"){
                 res.redirect('/homeAdmin')
             }
@@ -961,7 +963,7 @@ route.post('/',express.urlencoded(), async(req,res) => {
             req.flash('message', 'Username atau Password Anda salah!');
             res.redirect('/')
         }
-        console.log(npm,password)
+        console.log(results)
         res.end();
     })
     
