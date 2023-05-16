@@ -352,7 +352,7 @@ route.get('/home', async(req,res) => {
 
 
 // Get buat search filter DaftarTopikDosen
-route.get('/daftarTopikDosen',express.urlencoded(), async(req,res) => {
+route.get('/daftarProker',express.urlencoded(), async(req,res) => {
     const conn = await dbConnect();
     let results = await getProker(conn);
     const idTopik = req.body.aTopik
@@ -362,7 +362,7 @@ route.get('/daftarTopikDosen',express.urlencoded(), async(req,res) => {
         results = await getTopikFilter(conn,getName);
         if(req.session.loggedin){
             if(req.session.role == "Dosen"){
-                res.render('daftarTopikDosen',{
+                res.render('daftarProker',{
                     results,comments, nama, idTopik, namaKomen
                 })
             }
@@ -379,7 +379,7 @@ route.get('/daftarTopikDosen',express.urlencoded(), async(req,res) => {
         if(req.session.role == 2 || req.session.role == 3 || req.session.role == 4 || req.session.role == 5 || req.session.role == 6
             || req.session.role == 7 || req.session.role == 8 || req.session.role == 9 || req.session.role == 10 || req.session.role == 11
             || req.session.role == 12 || req.session.role == 13 || req.session.role == 14){
-            res.render('daftarTopikDosen',{
+            res.render('daftarProker',{
                 results
             })
         }
@@ -393,6 +393,48 @@ route.get('/daftarTopikDosen',express.urlencoded(), async(req,res) => {
     conn.release();
     console.log(results)
     });
+
+    route.get('/daftarRAB',express.urlencoded(), async(req,res) => {
+        const conn = await dbConnect();
+        let results = await getProker(conn);
+        const idTopik = req.body.aTopik
+        const getName = req.query.filter;
+        const nama = req.session.name;
+        if(getName != undefined && getName.length){
+            results = await getTopikFilter(conn,getName);
+            if(req.session.loggedin){
+                if(req.session.role == "Dosen"){
+                    res.render('daftarRAB',{
+                        results,comments, nama, idTopik, namaKomen
+                    })
+                }
+                else{
+                    res.redirect('/daftarTopik')
+                }
+            }
+            else{
+                req.flash('message','anda harus login terlebih dahulu')
+                res.redirect('/');
+            }
+         }
+        else if(req.session.loggedin){
+            if(req.session.role == 2 || req.session.role == 3 || req.session.role == 4 || req.session.role == 5 || req.session.role == 6
+                || req.session.role == 7 || req.session.role == 8 || req.session.role == 9 || req.session.role == 10 || req.session.role == 11
+                || req.session.role == 12 || req.session.role == 13 || req.session.role == 14){
+                res.render('daftarRAB',{
+                    results
+                })
+            }
+            else{
+                res.redirect('/daftarTopik')
+            }
+        }else{
+            req.flash('message', 'Anda harus login terlebih dahulu');
+            res.redirect('/')
+        }
+        conn.release();
+        console.log(results)
+        });
 
     route.post('/daftarTopikDosen2',express.urlencoded(), async(req,res) => {
         const conn = await dbConnect();
