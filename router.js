@@ -12,9 +12,9 @@ const __filename = fileURLToPath(import.meta.url);
 
 // query
 
-const getTopik = conn => {
+const getProker = conn => {
     return new Promise((resolve, reject) => {
-        conn.query('SELECT * FROM topik JOIN dosen ON topik.noDosen = dosen.noDosen'    , (err, result)=> {
+        conn.query('SELECT * FROM proker', (err, result)=> {
             if(err){
                 reject(err);
             }else{
@@ -334,7 +334,9 @@ route.get('/home', async(req,res) => {
     var idRole = req.session.role;
     var namaRole = req.session.namaRole;
     if(req.session.loggedin){
-        if(idRole == 3){
+        if(idRole == 2 || idRole == 3 || idRole == 4 || idRole == 5 || idRole == 6 || idRole == 7 || idRole == 8
+            || idRole == 9 || idRole == 10 || idRole == 11 || idRole == 12 || idRole == 13
+            || idRole == 14){
             res.render('home', {
                 nama, noID, idRole, namaRole
             });
@@ -352,10 +354,8 @@ route.get('/home', async(req,res) => {
 // Get buat search filter DaftarTopikDosen
 route.get('/daftarTopikDosen',express.urlencoded(), async(req,res) => {
     const conn = await dbConnect();
-    let results = await getTopik(conn);
-    let comments = await getKomen(conn);
+    let results = await getProker(conn);
     const idTopik = req.body.aTopik
-    let namaKomen = await getNamaD(conn,idTopik)
     const getName = req.query.filter;
     const nama = req.session.name;
     if(getName != undefined && getName.length){
@@ -376,9 +376,11 @@ route.get('/daftarTopikDosen',express.urlencoded(), async(req,res) => {
         }
      }
     else if(req.session.loggedin){
-        if(req.session.role == "Dosen"){
+        if(req.session.role == 2 || req.session.role == 3 || req.session.role == 4 || req.session.role == 5 || req.session.role == 6
+            || req.session.role == 7 || req.session.role == 8 || req.session.role == 9 || req.session.role == 10 || req.session.role == 11
+            || req.session.role == 12 || req.session.role == 13 || req.session.role == 14){
             res.render('daftarTopikDosen',{
-                results,comments, nama, idTopik, namaKomen
+                results
             })
         }
         else{
@@ -416,11 +418,12 @@ route.get('/homeAdmin',express.urlencoded(), async(req,res) => {
     conn.release();
     var nama = req.session.name;
     var noID = req.session.noID;
-    var roleD = req.session.role;
+    var idRole = req.session.role;
+    var namaRole = req.session.namaRole;
     if(req.session.loggedin){
-        if(roleD == "Admin"){
+        if(idRole== 1){
             res.render('homeAdmin', {
-                nama, noID, roleD, periode
+                nama, noID, idRole, namaRole
             });
         }
         else{
@@ -538,18 +541,19 @@ route.post('/skripsiSaya',express.urlencoded(), async(req,res) => {
 //mengambil koneksi untuk daftartopik + filter nama
 route.get('/daftarTopik',express.urlencoded(), async(req,res) => {
     const conn = await dbConnect();
-    let results = await getTopik(conn);
-    let comments = await getKomen(conn);
-    let namaKomen = await getNamaD(conn)
+    let results = await getProker(conn);
+    //let comments = await getKomen(conn);
+    //let namaKomen = await getNamaD(conn)
     const getName = req.query.filter;
     const nama = req.session.name;
     const idTopik = req.body.kTopik
+    const idRole = req.session.idRole;
     if(getName != undefined && getName.length){
-        results = await getTopikFilter(conn,getName);
+        //results = await getTopikFilter(conn,getName);
         if(req.session.loggedin){
-            if(req.session.role == "Admin"){
+            if(req.session.role == 1){
                 res.render('daftarTopik',{
-                    results,comments, nama, idTopik, namaKomen
+                    results
                 })
             }else{
                 res.send('Anda tidak memiliki akses')
@@ -559,12 +563,12 @@ route.get('/daftarTopik',express.urlencoded(), async(req,res) => {
             req.flash('message','anda harus login terlebih dahulu')
             res.redirect('/');
         }
-        console.log(results)
+        console.log(idRole)
      }
     else if(req.session.loggedin){
-        if(req.session.role == "Admin"){
+        if(req.session.role == 1){
             res.render('daftarTopik',{
-                results,comments, nama, idTopik, namaKomen
+                results
             })
         }else{
             res.send('Anda tidak memiliki akses')
@@ -678,10 +682,10 @@ route.get('/daftarTopik3',express.urlencoded(), async(req,res) => {
 route.post('/daftarTopik',express.urlencoded(), async(req,res) => {
     const conn = await dbConnect();
     const ubahStat = req.body.gantiStat;
-    const idTopik = req.body.noTopik;
-    var sql = `UPDATE topik SET statusSkripsi = '${ubahStat}' WHERE idTopik ='${idTopik}'`
-    if(ubahStat == "OK"|| ubahStat == "NO" || ubahStat == "INQ"){
-        conn.query(sql, [ubahStat,idTopik], ()=>{
+    const idProker = req.body.noTopik;
+    var sql = `UPDATE proker SET statusProk = '${ubahStat}' WHERE idProker ='${idProker}'`
+    if(ubahStat == "DITERIMA"|| ubahStat == "REVISI" || ubahStat == "PENDING"){
+        conn.query(sql, [ubahStat,idProker], ()=>{
             res.redirect('/daftarTopik')
             res.end();
         })
@@ -948,10 +952,12 @@ route.post('/',express.urlencoded(), async(req,res) => {
             req.session.noID = results[0].npm;
             req.session.role = results[0].idRole;
             req.session.namaRole = results[0].namaRole;
-            if(results[0].roles == "Admin"){
+            if(results[0].idRole == 1){
                 res.redirect('/homeAdmin')
             }
-            else if(results[0].idRole == 3){
+            else if(results[0].idRole == 2 || results[0].idRole == 3 || results[0].idRole == 4 || results[0].idRole == 5 || results[0].idRole == 6
+                || results[0].idRole == 7 || results[0].idRole == 8 || results[0].idRole == 9 || results[0].idRole == 10 || results[0].idRole == 11
+                || results[0].idRole == 12 || results[0].idRole == 13 || results[0].idRole == 14){
                 res.redirect('/home')
             }
         }

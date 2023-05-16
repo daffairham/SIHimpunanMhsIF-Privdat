@@ -43,51 +43,17 @@
                         </div>
                         <div class="textContent">
                             <input type="hidden" name ="aTopik" value="<%= row.idTopik %>">
-                            <h3><%= row.judulTopik %></h3>
-                            <p>Nomor Topik : <%= row.idTopik %></p>
-                            <p>Bidang Peminatan : <%= row.peminatan %></p>
-                            <p>Tahun Ajaran : <%= row.tahunAjaran %></p>
-                            <p>Dosen Pengaju : <%= row.namaD %></p>
+                            <h3><%= row.namaProker %></h3>
+                            <p>Nomor Topik : <%= row.isiProker %></p>
                         </div>
                         <div class="editButton">
                             <div>
-                                <p>Status: <b><%= row.statusSkripsi %></b> </p>
+                                <p>Status: <b><%= row.statusProk %></b> </p>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Comments -->
-                    <button class="showKomen" onclick="myFunction()">Show Comments</button>
-                    <br><br>
-                    <div id="comments">
-                        <div class="innerComments">
-                            <div class="isiKomentar">
-                                <% for(const row of namaKomen) { %> 
-                                    <input type="hidden" name ="plisTopik" value="<%= row.idTopik %>">
-                                <div class="name">
-                                    <!-- Nama si Penkomen -->
-                                    <fieldset>
-                                        <h3>Nama : <%=row.namaD %></h3>
-                                    </fieldset>
-                                </div>
-                                <!-- isi komentarnya -->
-                                <fieldset>
-                                    <h5>Komentar : <%= row.komentar %></h5>
-                                </fieldset>
-                                <% } %> 
-                            </div>
-
-                            <div class="inputKomentar">
-                                <h3>Post A Comment</h3>
-                                <form action="/daftarTopikDosen2" method="post">
-                                    <textarea name="komentar" id="" cols="30" rows="10" placeholder="Masukkan comment.."></textarea>
-                                    <br>
-                                    <input type="hidden" name ="kTopik" value="<%= row.idTopik %>">
-                                    <input type="submit" name="" onclick="redirect" value="Submit Comment">
-                                </form>
-                            </div>
-
-                            <!-- Isi Comments -->
+                   
                         </div>
                     </div>
                 
