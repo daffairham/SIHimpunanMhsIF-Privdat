@@ -1,0 +1,52 @@
+.container{
+    width: 100%;
+}
+
+.id_user{
+   width: 5%;
+   text-align: center; 
+}
+.nama_user{
+    width: 15%;
+    text-align: center; 
+ }
+.status_user{
+    width: 5%;
+    text-align: center;  
+ }
+.view{
+    text-align: center;
+    width: 2%;
+}
+#user{
+    background-color: #B7DBE0;
+    margin: 2%;
+    padding: 2%;
+    border: 2px solid black;
+     border-radius: 25px;
+}
+.button{
+    width: 100%;
+    padding: 3%;
+    background-color: #B7DBE0;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+.delete:hover{
+    background-color: red;
+}
+
+.add:hover{
+    background-color: greenyellow;
+}
+h2{
+    margin: 2%;
+}
+#container_add{
+    width: 15%;
+    margin-right: 3%;
+    margin-bottom: 5%;
+    float: right;
+    border-radius: 25px;
+    border: 2px solid black;
+}

@@ -62,7 +62,7 @@ const getNamaD = (conn,idTopik) => {
 
 const getUsers = conn => {
     return new Promise((resolve,reject) => {
-        conn.query('SELECT * FROM dosen', (err,result) => {
+        conn.query('SELECT * FROM users INNER JOIN role ON users.idRole = role.idRole', (err,result) => {
             if(err){
                 reject(err);
             }else{
@@ -931,7 +931,7 @@ route.post('/addUserPage',async(req,res) =>{
 
 route.get('/addUser',express.urlencoded(),async(req,res) => {
     if(req.session.loggedin){
-        if(req.session.role=="Admin"){
+        if(req.session.role==1){
             const conn = await dbConnect();
         res.render('addUser');
         conn.release();
@@ -1019,4 +1019,27 @@ route.post('/',express.urlencoded(), async(req,res) => {
 
 export {route};
 
+//halaman daftarUser
+route.get('/daftarUser',express.urlencoded(), async(req,res) => {
+    const conn = await dbConnect();
+    let results = await getUsers(conn);
+    conn.release();
+    var nama = req.session.name;
+    var noID = req.session.noID;
+    var idRole = req.session.role;
+    var namaRole = req.session.namaRole;
+    if(req.session.loggedin){
+        if(idRole== 1){
+            res.render('daftarUser', {
+                nama, noID, idRole, namaRole,results
+            });
+        }
+        else{
+            res.send('Anda tidak memiliki akses')
+        }
+    } else {
+        req.flash('message', 'Anda harus login terlebih dahulu');
+        res.redirect('/')
+    }
+});
 // DropDown Status DaftarSkirpsi

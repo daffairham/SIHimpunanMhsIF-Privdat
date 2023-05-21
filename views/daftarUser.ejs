@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="assets/daftarUser.css">
+        <link rel="stylesheet" href="../public/assets/header.css">
+    </head>
+    <body>
+        <header>
+            <%- include('./layout/header.ejs') %>
+        </header>
+        <div class="container">
+            <table id="user">
+                <tr>
+                    <th class="id_user">Id User</th>
+                    <th class="nama_user">Nama User</th>
+                    <th class="status_user">Jabatan User</th>
+                </tr>
+                <% for(const row of results) { %>
+                <tr>
+                    <td class="id_user"><%= row.NPM %></td>
+                    <td class="nama_user"><%= row.nama %></td>
+                    <td class="status_user"><%= row.namaRole %></td>
+                    <td class="status_user"><button class="button delete">Remove User</button></td>
+                </tr>
+                <% } %>
+            </table>
+        </div>
+        <div id="container_add">
+            <a href="http://localhost:8080/addUser"><button class="button add">Add User</button></a>
+        </div> 
+    </body>
+</html>
