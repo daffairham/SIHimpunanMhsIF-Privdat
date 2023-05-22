@@ -1,0 +1,30 @@
+.container{
+    width: 100%;
+}
+
+.id_proker{
+   width: 5%;
+   text-align: center; 
+}
+.nama_proker{
+    width: 25%;
+    text-align: center; 
+ }
+.status_proker{
+    width: 5%;
+    text-align: center;  
+ }
+.view{
+    text-align: center;
+    width: 2%;
+}
+#proker{
+    background-color: #B7DBE0;
+    margin: 2%;
+    padding: 2%;
+    border: 2px solid black;
+     border-radius: 25px;
+}
+h2{
+    margin: 2%;
+}

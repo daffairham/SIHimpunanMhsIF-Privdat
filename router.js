@@ -768,7 +768,7 @@ route.post('/daftarTopik',express.urlencoded(), async(req,res) => {
     var sql = `UPDATE proker SET statusProk = '${ubahStat}' WHERE idProker ='${idProker}'`
     if(ubahStat == "DITERIMA"|| ubahStat == "REVISI" || ubahStat == "PENDING"){
         conn.query(sql, [ubahStat,idProker], ()=>{
-            res.redirect('/daftarTopik')
+            res.redirect('/daftarProkerAdmin')
             res.end();
         })
     }
@@ -999,7 +999,7 @@ route.post('/addAkun',express.urlencoded(),async(req,res) => {
         const roles = req.body.Roles;
         console.log(nama)
         if(nama.length > 0 && username.length > 0 && password.length > 0 && noDosen.length > 0 && roles.length > 0){
-            if(roles =="Admin" || roles == "Dosen"){
+            if(req.session.role ==1){
                 await addAkun(conn,nama,username,password,noDosen,roles)
                 res.redirect('/kelolaAkun')
             }
