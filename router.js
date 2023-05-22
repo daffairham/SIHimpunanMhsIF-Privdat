@@ -62,7 +62,7 @@ const getNamaD = (conn,idTopik) => {
 
 const getUsers = conn => {
     return new Promise((resolve,reject) => {
-        conn.query('SELECT * FROM users INNER JOIN role ON users.idRole = role.idRole', (err,result) => {
+        conn.query('SELECT * FROM users INNER JOIN role ON users.idRole = role.idRole ORDER BY users.idRole asc', (err,result) => {
             if(err){
                 reject(err);
             }else{
@@ -207,9 +207,9 @@ const updateUsername = (conn,usernameDiganti,results) => {
 }
 
 //query untuk memasukan akun baru ke database
-const addAkun = (conn,nama,username,password,noDosen,roles) => {
+const addAkun = (conn,npm, nama,password,roles) => {
     return new Promise((resolve,reject) => {
-        conn.query(`INSERT INTO dosen (namaD,noDosen,username,pwd,roles) VALUES ('${nama}','${noDosen}','${username}','${password}','${roles}')`,(err,result) => {
+        conn.query(`INSERT INTO users(NPM,nama,pwd,idRole) VALUES ('${npm}','${nama}','${password}','${roles}')`,(err,result) => {
             if(err){
                 reject(err)
             }
@@ -768,7 +768,7 @@ route.post('/daftarTopik',express.urlencoded(), async(req,res) => {
     var sql = `UPDATE proker SET statusProk = '${ubahStat}' WHERE idProker ='${idProker}'`
     if(ubahStat == "DITERIMA"|| ubahStat == "REVISI" || ubahStat == "PENDING"){
         conn.query(sql, [ubahStat,idProker], ()=>{
-            res.redirect('/daftarTopik')
+            res.redirect('/daftarProkerAdmin')
             res.end();
         })
     }
@@ -990,18 +990,17 @@ route.get('/addUser',express.urlencoded(),async(req,res) => {
 route.post('/addAkun',express.urlencoded(),async(req,res) => {
 
     if(req.session.loggedin){
-        if(req.session.role=="Admin"){
+        if(req.session.role==1){
         const conn = await dbConnect();
-        const nama = req.body.gantiNama
-        const username = req.body.gantiUsername;
-        const password = req.body.gantiPassword;
-        const noDosen = req.body.gantiNoDosen;
+        const nama = req.body.addNama
+        const password = req.body.addPassword;
+        const npm = req.body.addNPM;
         const roles = req.body.Roles;
         console.log(nama)
-        if(nama.length > 0 && username.length > 0 && password.length > 0 && noDosen.length > 0 && roles.length > 0){
-            if(roles =="Admin" || roles == "Dosen"){
-                await addAkun(conn,nama,username,password,noDosen,roles)
-                res.redirect('/kelolaAkun')
+        if(nama.length > 0 && password.length > 0 && npm.length > 0 && roles.length > 0){
+            if(req.session.role ==1){
+                await addAkun(conn, npm, nama,password,roles)
+                res.redirect('/daftarUser')
             }
             else{
                 res.send('error')
