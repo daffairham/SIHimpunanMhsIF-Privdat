@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/daftarTopik.css">
-    <title>Daftar Topik Skripsi</title>
+    <title>Daftar Program Kerja</title>
 </head>
 
 <body>
@@ -19,7 +19,7 @@
                 <img src="assets/images/leftArrow.png" alt="">
             </a>
 
-            <h3>Daftar Topik Skripsi</h3>
+            <h3>Daftar Program Kerja</h3>
             <p class="dueDateUnggah">Due/05/2022</p>
             <div class="searchAkun">
                 <form method="GET" action="/daftarTopik">
@@ -30,11 +30,6 @@
                 </form>
             </div>
             
-            <div class="exportToPDF">
-                <form action="/daftarTopikExportToPDF" method="post">
-                    <input type="submit" value="Generate Report">
-                </form>
-            </div>
 
         </div>
         <br>
@@ -48,7 +43,7 @@
                         </div>
                         <div class="textContent">
                             <h3><%= row.namaProker %></h3>
-                            <p>Nomor Topik : <%= row.isiProker %></p>
+                            <p><%= row.isiProker %></p>
                         </div>
 
                         <div class="editButton">
@@ -76,33 +71,9 @@
                         <!-- bagian Comments -->
                     </div>
 
-                
-
-                            <div class="inputKomentar">
-                                <h3>Post A Comment</h3>
-                                <form action="/daftarTopik2" method="post">
-                                    <textarea name="komentar" id="" cols="30" rows="10" placeholder="Masukkan comment.."></textarea>
-                                    <br>
-                                    <input type="submit" name="" onclick="redirect" value="Submit Comment">
-                                </form>
-                            </div>
-
                         </div>
                     </div>
                 </a>
-
-                <script>
-                    function myFunction() {
-                  var x = document.getElementById("comments");
-                  if (x.style.display === "none") {
-                    x.style.display = "block";
-                    console.log(x.style.display);
-                  } else {
-                    x.style.display = "none";
-                    console.log(x.style.display);
-                  }
-                }
-                </script>
                 
                 <% } %> 
             </div>
