@@ -11,12 +11,14 @@
 
 .skripsiSayaTop{
     margin: 2rem 1rem 0.5rem 1rem;
-    border: solid darkblue 0.1rem;
+    border: solid black 2px;
     display: flex;
     flex-direction: row;
     justify-content: start;
     align-items: center;
     text-align: center;
+    background-color: #B7DBE0;
+    border-radius: 25px;
 }
 
 .skripsiSayaTop h3{
@@ -78,7 +80,7 @@ fieldset{
 /* CSS Bagian inner1 Container skripsiSayaMain */
 
 .innerMain1{
-    background-color: lightgray;
+    background-color:#B7DBE0;
     border-radius: 1rem;
     padding: 1rem 1rem 1rem 1rem;
     width: 100%;
