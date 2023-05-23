@@ -26,14 +26,18 @@
                     <th class="view">RAB</th>
                 </tr>
                 <tr>
-                    <td class="id_proker">1</td>
-                    <td class="nama_proker">Bakti Sosial ICare ke Panti Asuhan Cadas Hikmat</td>
-                    <td class="status_proker">Pending</td>
-                    <td class="view"><a href="#isiProposal">Lihat Isi</td>
+                    <% for (const row of results){ %>
+                        <tr>
+                            <td class="id_proker"><%= row.idProker %></td>
+                            <td class="nama_proker"><%= row.namaProker %></td>
+                            <td class="status_proker"><%= row.statusProk %></td>
+                            
+                <td class="view"><a href="#isiProposal">Lihat Isi</td>
                     <td class="view"><a href="#isiRAB">Lihat Isi</td>
-                </tr>
-
-            </table>
+                        </tr>
+                        <% } %>
+                        
+                    </table>
         </div>
     </body>
 </html>
