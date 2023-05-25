@@ -11,53 +11,51 @@
     <body>
 
         <header>
-            <%- include('./layout/head.ejs') %>
+            <%- include('./layout/header.ejs') %>
         </header>
     
         <div class="kelolaAkunContainer">
             <div class="kelolaAkunTop">
-                <a href="http://localhost:8080/kelolaAkun">
+                <a href="http://localhost:8080/daftarUser">
                     <img src="assets/images/leftArrow.png" alt="">
                 </a>
-                <h3>Kelola Akun</h3>
+                <h1>Add Akun Mahasiswa</h1>
             </div>
     
             <br>
     
             <div class="kelolaAkunMain">
-                    <div class="innerMain">
-                            <div class="innerMain1">
-                                <form action="/addAkun" method="post">
-                                    <fieldset>
-                                        <h3>Lengkapi informasi akun yang ingin ditambahkan</h3>
-                                        <label for=""> Nama Lengkap</label>
-                                        <input type="text" class="addNama" name="addNama" required>
-                                        <label for=""> NPM</label>
-                                        <input type="text" class="addNPM" name="addNPM" required>
-                                        <label for=""> password</label>
-                                        <input type="password" class="addPassword" name="addPassword" required>
-                                        <label for=""> Roles</label>
-                                        <select name="Roles" id="">
-                                            <option value="1">Ketua / Wakil Ketua Himpunan</option>
-                                            <option value="2">Sekretaris / Bendahara</option>
-                                            <option value="3">Koordinator Divisi - Akademik</option>
-                                            <option value="4">Koordinator Divisi - Seni dan Olahraga</option>
-                                            <option value="5">Koordinator Divisi - Pengabdi Masyarakat</option>
-                                            <option value="6">Koordinator Divisi - Penelitian Pengembangan</option>
-                                            <option value="7">Koordinator Divisi - Media Komunikasi</option>
-                                            <option value="8">Koordinator Divisi - Kemahasiswaan</option>
-                                            <option value="9">Staff - Akademik</option>
-                                            <option value="10">Staff - Seni dan Olahraga</option>
-                                            <option value="11">Staff - Pengabdi Masyarakat</option>
-                                            <option value="12">Staff - Penelitian Pengembangan</option>
-                                            <option value="13">Staff - Media Komunikasi</option>
-                                            <option value="14">Staff - Kemahasiswaan</option>
-                                        </select>
-                                        <input type="submit" id="gantiNama" value="submit">
-                                    </fieldset>
-                                </form>
-                            </div>
-                    </div>
+
+                <form action="/addAkun" method="post">
+                    <fieldset>
+                        <h3>Lengkapi informasi akun yang ingin ditambahkan</h3>
+                        <label for=""> Nama Lengkap</label>
+                        <input type="text" class="addNama" name="addNama" required>
+                        <label for=""> NPM</label>
+                        <input type="text" class="addNPM" name="addNPM" required>
+                        <label for=""> password</label>
+                        <input type="password" class="addPassword" name="addPassword" required>
+                        <label for=""> Roles</label>
+                        <select name="Roles" id="">
+                            <option value="1">Ketua / Wakil Ketua Himpunan</option>
+                            <option value="2">Sekretaris / Bendahara</option>
+                            <option value="3">Koordinator Divisi - Akademik</option>
+                            <option value="4">Koordinator Divisi - Seni dan Olahraga</option>
+                            <option value="5">Koordinator Divisi - Pengabdi Masyarakat</option>
+                            <option value="6">Koordinator Divisi - Penelitian Pengembangan</option>
+                            <option value="7">Koordinator Divisi - Media Komunikasi</option>
+                            <option value="8">Koordinator Divisi - Kemahasiswaan</option>
+                            <option value="9">Staff - Akademik</option>
+                            <option value="10">Staff - Seni dan Olahraga</option>
+                            <option value="11">Staff - Pengabdi Masyarakat</option>
+                            <option value="12">Staff - Penelitian Pengembangan</option>
+                            <option value="13">Staff - Media Komunikasi</option>
+                            <option value="14">Staff - Kemahasiswaan</option>
+                        </select>
+                        <input type="submit" id="gantiNama" value="submit">
+                    </fieldset>
+                </form>
+
             </div>
         
     
