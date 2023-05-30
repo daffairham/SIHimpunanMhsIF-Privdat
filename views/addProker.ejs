@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/kelolaAkunLanjutan.css">
+    <title>Add Program Kerja</title>
+</head>
+<body>
+    <body>
+
+        <header>
+            <%- include('./layout/header.ejs') %>
+        </header>
+    
+        <div class="kelolaAkunContainer">
+            <div class="kelolaAkunTop">
+                <a href="http://localhost:8080/daftarProker">
+                    <img src="assets/images/leftArrow.png" alt="">
+                </a>
+                <h1>Add Program Kerja</h1>
+            </div>
+    
+            <br>
+    
+            <div class="kelolaAkunMain">
+
+                <form action="/addProker" method="post">
+                    <fieldset>
+                        <h3>Lengkapi informasi akun yang ingin ditambahkan</h3>
+                        <label for=""> Nama Program Kerja</label>
+                        <input type="text" class="addProker" name="addProker" required>
+                        <label for=""> Deskripsi Singkat</label>
+                        <input type="text" class="addIsi" name="addIsi" required>
+                        <input type="submit" id="gantiNama" value="submit">
+                    </fieldset>
+                </form>
+
+            </div>
+        
+    
+        </div>
+    
+        <footer>
+            <%- include('./layout/footer.ejs') %>
+        </footer>
+        
+    </body>
+</body>
+</html>
