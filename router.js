@@ -736,18 +736,16 @@ route.get('/daftarTopik2',express.urlencoded(), async(req,res) => {
     conn.release();
 });
 
-//get delete topik
-route.get('/daftarTopik3',express.urlencoded(), async(req,res) => {
+//Untuk Delete User
+route.get('/daftarUser2',express.urlencoded(), async(req,res) => {
     const conn = await dbConnect();
-    let results = await getTopik(conn);
-    let comments = await getKomen(conn);
-    let namaKomen = await getNamaD(conn)
+    let results = await getUsers(conn);
     const nama = req.session.name;
-    const idTopik = req.body.kTopik
+    const npm = req.body.npm;
     if(req.session.loggedin){
-        if(req.session.role=="Admin"){
-            res.render('daftarTopik',{
-                results,comments, nama, idTopik, namaKomen
+        if(req.session.role== 1){
+            res.render('daftarUser',{
+                results, comments, nama, npm
             })
         }
         else{
@@ -778,14 +776,15 @@ route.post('/daftarTopik',express.urlencoded(), async(req,res) => {
 });
 
 //delete topik
-route.post('/daftarTopik3',express.urlencoded(), async(req,res) => {
+route.post('/daftarUser2',express.urlencoded(), async(req,res) => {
     const conn = await dbConnect();
-    const idTopik = req.body.noTopik;
-    var sql = `DELETE FROM topik WHERE idTopik ='${idTopik}'`
-    conn.query(sql, [idTopik], ()=>{
-        res.redirect('/daftarTopik')
+    const npm = req.body.npm;
+    var sql = `DELETE FROM users WHERE NPM ='${npm}'`
+    conn.query(sql, [npm], ()=>{
+        res.redirect('/daftarUser')
         res.end();
     })
+    console.log(npm)
 });
 
 //menambahkan komentar
@@ -1063,6 +1062,7 @@ route.get('/daftarUser',express.urlencoded(), async(req,res) => {
     const conn = await dbConnect();
     let results = await getUsers(conn);
     conn.release();
+    var npm = req.session.NPM;
     var nama = req.session.name;
     var noID = req.session.noID;
     var idRole = req.session.role;
@@ -1070,7 +1070,7 @@ route.get('/daftarUser',express.urlencoded(), async(req,res) => {
     if(req.session.loggedin){
         if(idRole== 1){
             res.render('daftarUser', {
-                nama, noID, idRole, namaRole,results
+                npm, nama, noID, idRole, namaRole,results
             });
         }
         else{

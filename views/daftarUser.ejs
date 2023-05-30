@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="assets/daftarUser.css">
         <link rel="stylesheet" href="../public/assets/header.css">
+        <title>Daftar User</title>
     </head>
     <body>
         <header>
@@ -23,7 +24,11 @@
                     <td class="id_user"><%= row.NPM %></td>
                     <td class="nama_user"><%= row.nama %></td>
                     <td class="status_user"><%= row.namaRole %></td>
-                    <td class="status_user"><button class="button delete">Remove User</button></td>
+                    <td class="status_user">
+                        <form action="/daftarUser2" method="post">
+                        <input type="hidden" name ="npm" value="<%= row.NPM %>">
+                        <input type="submit" name="deleteUser" class="button delete" onclick="redirect" value="Remove User">
+                    </td></form>
                 </tr>
                 <% } %>
             </table>
