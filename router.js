@@ -24,6 +24,18 @@ const getProker = conn => {
     });
 };
 
+const getProposal = conn => {
+    return new Promise((resolve, reject) => {
+        conn.query('SELECT * FROM proposal', (err, result)=> {
+            if(err){
+                reject(err);
+            }else{
+                resolve(result);
+            }
+        });
+    });
+};
+
 const getTopikFilter = (conn,getName) => {
     return new Promise((resolve, reject) => {
         conn.query(`SELECT * FROM topik JOIN dosen ON topik.noDosen = dosen.noDosen WHERE dosen.namaD LIKE '%${getName}%' ` , (err, result)=> {
@@ -397,7 +409,8 @@ route.get('/daftarProker',express.urlencoded(), async(req,res) => {
     route.get('/daftarProkerAdmin',express.urlencoded(), async(req,res) => {
         const conn = await dbConnect();
         let results = await getProker(conn);
-        const idTopik = req.body.aTopik
+        const id = req.body.id;
+        const idTopik = req.body.noTopik
         const getName = req.query.filter;
         const nama = req.session.name;
         if(getName != undefined && getName.length){
@@ -430,8 +443,8 @@ route.get('/daftarProker',express.urlencoded(), async(req,res) => {
             req.flash('message', 'Anda harus login terlebih dahulu');
             res.redirect('/')
         }
+        console.log(idTopik)
         conn.release();
-        console.log(results)
         });
 
     route.get('/daftarRAB',express.urlencoded(), async(req,res) => {
@@ -758,7 +771,7 @@ route.get('/daftarUser2',express.urlencoded(), async(req,res) => {
     conn.release();
 });
 
-//mengubah status skripsi
+//mengubah status proker
 route.post('/daftarTopik',express.urlencoded(), async(req,res) => {
     const conn = await dbConnect();
     const ubahStat = req.body.gantiStat;
@@ -773,9 +786,10 @@ route.post('/daftarTopik',express.urlencoded(), async(req,res) => {
     else{
         res.send('Data Error')
     }
+    const id = req.body.id;
 });
 
-//delete topik
+//delete user
 route.post('/daftarUser2',express.urlencoded(), async(req,res) => {
     const conn = await dbConnect();
     const npm = req.body.npm;
@@ -784,7 +798,6 @@ route.post('/daftarUser2',express.urlencoded(), async(req,res) => {
         res.redirect('/daftarUser')
         res.end();
     })
-    console.log(npm)
 });
 
 //menambahkan komentar
@@ -1117,3 +1130,19 @@ route.get('/isiProposal',express.urlencoded(), async(req,res) => {
         res.redirect('/')
     }
 });
+
+// Route for viewing the proposal
+route.get('/isiProp/:id',async (req, res) => {
+    const conn = await dbConnect()
+    let proposalData = await getProposal(conn);
+    const id = req.params.id;
+    res.render('isiProp', { id, proposalData });
+
+  });
+  
+  // Route for viewing the RAB
+  route.get('/lihatRab/:id', (req, res) => {
+    const id = req.params.id;
+    res.render('lihatRab', { id, rabData }); 
+  });
+  
