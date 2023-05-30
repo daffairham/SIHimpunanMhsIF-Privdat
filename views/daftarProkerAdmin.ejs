@@ -47,7 +47,7 @@
                     
                 </td>
                 <td class="view"><a href="http://localhost:8080/isiProposal"+<%= row.idProker %>>Lihat Isi</td>
-                <td class="view"><a href="#isiRAB">Lihat Isi</td>
+                <td class="view"><a href="http://localhost:8080/isiRAB"+<%= row.idProker %>>Lihat Isi</td>
             </tr>
             <% } %>
 
@@ -59,13 +59,13 @@
                 <select>
                     <% for (const row of results){ %>
                         <option><%= row.namaProker %></option>    
-                    
+                        <% } %>    
                 </select>
                 <textarea></textarea>
-                <input type="hidden" name ="noTopik" value="<%= row.idProker %>">
+                
                 <input type="submit" name="updateComment" class="gantiComment" onclick="redirect" value="Submit">
             </form>
-                    <% } %>
+                    
         </fieldset>
     </div>
 </body>
