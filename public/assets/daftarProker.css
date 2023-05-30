@@ -28,6 +28,9 @@
 h2{
     margin: 2%;
 }
+th{
+    font-size: 24px;
+}
 #addProker{
     width: 15%;
     margin-right: 3%;

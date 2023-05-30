@@ -21,6 +21,8 @@
                 <th class="id_proker">Id Proker</th>
                 <th class="nama_proker">Nama & Penjelasan Proker</th>
                 <th class="status_proker">Status Proker</th>
+                <th class="status_proker">Status Proposal</th>
+                <th class="status_proker">Status RAB</th>
                 <th class="view">Proposal</th>
                 <th class="view">RAB</th>
             </tr>
@@ -36,6 +38,36 @@
                     <form action="/daftarTopik" method="POST">
                         <select name="gantiStat">
                             <option selected value><%= row.statusProkKetua %> </option>
+                            <option value="DITERIMA" name="DITERIMA">DITERIMA</option>
+                            <option value="REVISI" name="REVISI">REVISI</option>
+                            <option value="PENDING" name="PENDING">PENDING</option>
+                            <option value="PENDING" name="PENDING">LANJUT KE KAPRODI</option>     
+
+                        </select>
+                        <input type="hidden" name ="noTopik" value="<%= row.idProker %>">
+                        <input type="submit" name="updateStat" class="gantiStat" onclick="redirect" value="Ganti Status">
+                    </form>
+                    
+                    
+                </td>
+                <td class="status_proker">
+                    <form action="/daftarTopik" method="POST">
+                        <select name="gantiStat">
+                            <option selected value><%= row.statusPropKetua %> </option>
+                            <option value="DITERIMA" name="DITERIMA">DITERIMA</option>
+                            <option value="REVISI" name="REVISI">REVISI</option>
+                            <option value="PENDING" name="PENDING">PENDING</option>     
+                        </select>
+                        <input type="hidden" name ="noTopik" value="<%= row.idProker %>">
+                        <input type="submit" name="updateStat" class="gantiStat" onclick="redirect" value="Ganti Status">
+                    </form>
+                    
+                    
+                </td>
+                <td class="status_proker">
+                    <form action="/daftarTopik" method="POST">
+                        <select name="gantiStat">
+                            <option selected value><%= row.statusPropKetua %> </option>
                             <option value="DITERIMA" name="DITERIMA">DITERIMA</option>
                             <option value="REVISI" name="REVISI">REVISI</option>
                             <option value="PENDING" name="PENDING">PENDING</option>     
