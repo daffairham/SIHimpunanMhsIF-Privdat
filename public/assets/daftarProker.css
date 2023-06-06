@@ -41,7 +41,7 @@ h2{
     margin: 2%;
 }
 th{
-    font-size: 24px;
+    font-size: 25px;
 }
 #addProker{
     width: 15%;
@@ -57,8 +57,28 @@ th{
     background-color: #B7DBE0;
     border: 2px solid black;
     border-radius: 10px;
+    font-size: 20px;
 }
 
 .add:hover{
     background-color: greenyellow;
+}
+td a{
+    background-color: aliceblue;
+    border-radius: 15px;
+    padding: 10%;
+    display: block;
+}
+td a:hover{
+    background-color: #60c1ce;
+    color: black;
+}
+#container_add{
+    width: 25%;
+    margin: auto;
+}
+#detail_proker{
+    width: 25%;
+    padding: 2%;
+    margin: auto;
 }

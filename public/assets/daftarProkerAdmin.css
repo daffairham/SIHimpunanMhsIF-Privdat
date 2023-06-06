@@ -65,4 +65,50 @@ form textarea{
     width: 25%;
     border-radius: 15px;
     background-color:#4877c939;
-} 
+}
+input{
+    border-radius: 15px;
+    padding: 3%;
+}
+.desc_proker{
+    display: none;
+}
+#detail_proker{
+    padding: 1%;
+    border: none;
+    display: block;
+    border-radius: 25px;
+    margin-top: 1%;
+}
+
+#container_isiProker{
+    background-color: #B7DBE0;
+    border-radius: 25px;
+    border: 1px solid black;
+    margin: 5%;
+    font-size: 25px;
+    padding: 5%;
+}
+#anggota_proker{
+    width: 100%;
+    border: 1px solid black;
+    border-radius: 25px;
+}
+#anggota_proker td{
+    text-align: center;
+}
+
+.button{
+    width: 25%;
+    float: right;
+    margin-right:5%;
+    padding: 1%;
+    background-color: #B7DBE0;
+    border: 2px solid black;
+    border-radius: 10px;
+    font-size: 20px;
+}
+
+.add:hover{
+    background-color: greenyellow;
+}

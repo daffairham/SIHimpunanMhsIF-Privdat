@@ -5,6 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="assets/daftarProker.css">
+        <link rel="stylesheet" href="assets/daftarProkerAdmin.css">
         <link rel="stylesheet" href="../public/assets/header.css">
         <script src="/controller/controllerDaftarProkerSekben.js"></script>
 
@@ -19,7 +20,6 @@
         <div class="container">
             <table id="proker">
                 <tr>
-                    <th class="id_proker">Id Proker</th>
                     <th class="nama_proker">Nama Proker</th>
                     <th class="status_proker">Status Proker</th>
                     <th class="status_proker">Status Proposal</th>
@@ -29,11 +29,10 @@
                 </tr>
                 <% for (const row of results){ %>
                 <tr>
-                    <td class="id_proker"><%= row.idProker %></td>
                     <td class="nama_proker">
                         <b><%= row.namaProker %></b>
-                        <br></br>
-                        <%= row.isiProker %>
+                        <a id="detail_proker" href="http://localhost:8080/isiProkerSekben">Click to Show Details</a>
+                        
                     </td>
                     <td class="status_proker">
                         <form action="/daftarTopik" method="POST">
