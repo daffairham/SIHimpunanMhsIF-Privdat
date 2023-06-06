@@ -18,7 +18,7 @@
     <div class="container">
         <table id="proker">
             <tr>
-                <th class="nama_proker">Nama & Penjelasan Proker</th>
+                <th class="nama_proker">Nama Proker</th>
                 <th class="status_proker">Status Proker</th>
                 <th class="status_proker">Status Proposal</th>
                 <th class="status_proker">Status RAB</th>
@@ -29,8 +29,11 @@
             <tr>
                 <td class="nama_proker">
                     <b><%= row.namaProker %></b>
-                    <br></br>
-                    <%= row.isiProker %>
+                    <br>
+                    <a id="detail_proker" href="http://localhost:8080/isiProkerAdmin">Click to Show Details</a>
+                    <script>
+
+                    </script>
                 </td>
                 <td class="status_proker">
                     <form action="/daftarTopik" method="POST">

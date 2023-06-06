@@ -1387,3 +1387,70 @@ route.get('/isiRAB',express.urlencoded(), async(req,res) => {
         res.redirect('/')
     }
 });
+
+route.get('/isiProker',express.urlencoded(), async(req,res) => {
+    const conn = await dbConnect();
+    let results = await getCurrentProposal(conn);
+    conn.release();
+    var nama = req.session.name;
+    var noID = req.session.noID;
+    var idRole = req.session.role;
+    var namaRole = req.session.namaRole;
+    if(req.session.loggedin){
+        if(idRole!=1 || idRole!=2){
+            res.render('isiProker', {
+                nama, noID, idRole, namaRole,results
+            });
+        }
+        else{
+            res.send('Anda tidak memiliki akses')
+        }
+    } else {
+        req.flash('message', 'Anda harus login terlebih dahulu');
+        res.redirect('/')
+    }
+});
+route.get('/isiProkerSekben',express.urlencoded(), async(req,res) => {
+    const conn = await dbConnect();
+    let results = await getCurrentProposal(conn);
+    conn.release();
+    var nama = req.session.name;
+    var noID = req.session.noID;
+    var idRole = req.session.role;
+    var namaRole = req.session.namaRole;
+    if(req.session.loggedin){
+        if(idRole==2){
+            res.render('isiProkerSekben', {
+                nama, noID, idRole, namaRole,results
+            });
+        }
+        else{
+            res.send('Anda tidak memiliki akses')
+        }
+    } else {
+        req.flash('message', 'Anda harus login terlebih dahulu');
+        res.redirect('/')
+    }
+});
+route.get('/isiProkerAdmin',express.urlencoded(), async(req,res) => {
+    const conn = await dbConnect();
+    let results = await getCurrentProposal(conn);
+    conn.release();
+    var nama = req.session.name;
+    var noID = req.session.noID;
+    var idRole = req.session.role;
+    var namaRole = req.session.namaRole;
+    if(req.session.loggedin){
+        if(idRole==1){
+            res.render('isiProkerAdmin', {
+                nama, noID, idRole, namaRole,results
+            });
+        }
+        else{
+            res.send('Anda tidak memiliki akses')
+        }
+    } else {
+        req.flash('message', 'Anda harus login terlebih dahulu');
+        res.redirect('/')
+    }
+});
