@@ -9,6 +9,9 @@ import multer from 'multer';
 import fs from 'fs';
 var route = express.Router();
 const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const dirPath = path.join(__dirname, 'uploadedFile');
+var route = express.Router();
 
 // query
 
