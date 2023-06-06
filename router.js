@@ -1356,9 +1356,9 @@ route.get('/daftarUser',express.urlencoded(), async(req,res) => {
 });
 
 // get current proposal
-const getCurrentProposal = conn => {
+const getCurrentProposal = (conn, id) => {
     return new Promise((resolve,reject) => {
-        conn.query('SELECT * FROM proposal', (err,result) => {
+        conn.query('SELECT * FROM proposal WHERE idProker = ?', [id], (err, result) => {
             if(err){
                 reject(err);
             }else{
@@ -1368,21 +1368,44 @@ const getCurrentProposal = conn => {
     });
 };
 
-const getCurrentRab = conn => {
+const getCurrentRab = (conn, id) => {
     return new Promise((resolve,reject) => {
-        conn.query('SELECT * FROM rab', (err,result) => {
+        conn.query('SELECT * FROM rab WHERE idProker = ?', [id], (err, result) => {
             if(err){
                 reject(err);
             }else{
                 resolve(result);
+                
             }
         });
     });
 };
 // Halaman isiProposal
-route.get('/isiProposal',express.urlencoded(), async(req,res) => {
+route.post('/isiProp', express.urlencoded(), async (req, res) => {
     const conn = await dbConnect();
-    let results = await getCurrentProposal(conn);
+    conn.release();
+    const id = req.body.id;
+    var nama = req.session.name;
+    var noID = req.session.noID;
+    var idRole = req.session.role;
+    var namaRole = req.session.namaRole;
+    if(req.session.loggedin){
+        if(idRole==1){
+            res.redirect(`/isiProp/${id}`);
+        }
+        else{
+            res.send('Anda tidak memiliki akses')
+        }
+    } else {
+        req.flash('message', 'Anda harus login terlebih dahulu');
+        res.redirect('/')
+    }
+});
+
+route.get('/isiProp/:id', express.urlencoded(), async (req, res) => {
+    const conn = await dbConnect();
+    const id = req.params.id;
+    let results = await getCurrentProposal(conn, id); // Remove the 'id' parameter here
     conn.release();
     var nama = req.session.name;
     var noID = req.session.noID;
@@ -1390,9 +1413,7 @@ route.get('/isiProposal',express.urlencoded(), async(req,res) => {
     var namaRole = req.session.namaRole;
     if(req.session.loggedin){
         if(idRole== 1 || idRole == 2){
-            res.render('isiProp', {
-                nama, noID, idRole, namaRole,results
-            });
+            res.render('isiProp', {id, results});
         }
         else{
             res.send('Anda tidak memiliki akses')
@@ -1404,19 +1425,17 @@ route.get('/isiProposal',express.urlencoded(), async(req,res) => {
 });
 
 // Halaman isiRAB
-route.get('/isiRAB',express.urlencoded(), async(req,res) => {
+route.post('/isiRab', express.urlencoded(), async (req, res) => {
     const conn = await dbConnect();
-    let results = await getCurrentRab(conn);
     conn.release();
+    const id = req.body.id;
     var nama = req.session.name;
     var noID = req.session.noID;
     var idRole = req.session.role;
     var namaRole = req.session.namaRole;
     if(req.session.loggedin){
-        if(idRole== 1 ){
-            res.render('isiRAB', {
-                nama, noID, idRole, namaRole,results
-            });
+        if(idRole==1){
+            res.redirect(`/isiRAB/${id}`);
         }
         else{
             res.send('Anda tidak memiliki akses')
@@ -1426,6 +1445,29 @@ route.get('/isiRAB',express.urlencoded(), async(req,res) => {
         res.redirect('/')
     }
 });
+
+
+route.get('/isiRab/:id', express.urlencoded(), async (req, res) => {
+    const conn = await dbConnect();
+    const id = req.params.id; // Declare and assign the id variable here
+    let results = await getCurrentRab(conn, id);
+    conn.release();
+    var nama = req.session.name;
+    var noID = req.session.noID;
+    var idRole = req.session.role;
+    var namaRole = req.session.namaRole;
+    if (req.session.loggedin) {
+        if (idRole == 1) {
+            res.render('isiRAB', { id, results });
+        } else {
+            res.send('Anda tidak memiliki akses');
+        }
+    } else {
+        req.flash('message', 'Anda harus login terlebih dahulu');
+        res.redirect('/');
+    }
+});
+
 
 
 route.post('/isiProkerAdmin',express.urlencoded(), async(req,res) => {

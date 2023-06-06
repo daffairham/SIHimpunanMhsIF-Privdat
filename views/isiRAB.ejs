@@ -4,22 +4,26 @@
         <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/daftarProkerAdmin.css">
-    <link rel="stylesheet" href="assets/isiProp.css">
+    <link rel="stylesheet" href="/assets/daftarProkerAdmin.css">
+    <link rel="stylesheet" href="/assets/isiProp.css">
 
-    <title>Isi RAB</title>
+    <% for (const row of results){ %>
+        <title><%= row.namaProker  %></title>
+        <% } %>
     </head>
     <body>
-        <header><%- include('./layout/header.ejs') %></header>
-        <h1>Rancangan Aggaran Belanja dari Program Kerja Tutoring untuk Mata Kuliah DAA</h1>
-        <div class="container_prop">
-            <bre>
-                <% for (const row of results) { %>
-                    <embed src="data:application/pdf;base64,<%= row.isiRab.toString('base64') %>" width="100%" height="600px" type="application/pdf">
-                <% } %>
-                
-            </bre>
-        </div>
+        <header><%- include('./layout/headerAdmin.ejs') %></header>
+        <% for (const row of results){ %>
+            <h1><%= row.namaRab  %></h1>
+            <% } %>
+            <div class="container_prop">
+                <bre>
+                    <% for (const row of results){ %>           
+                        <embed src="data:application/pdf;base64,<%= row.isiRab.toString('base64') %>" width="100%" height="600px" type="application/pdf">
+    
+                    <% } %>
+                </bre>
+            </div>
     </body>
 
 </html>
