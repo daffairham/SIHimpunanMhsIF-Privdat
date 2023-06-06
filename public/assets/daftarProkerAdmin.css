@@ -65,4 +65,8 @@ form textarea{
     width: 25%;
     border-radius: 15px;
     background-color:#4877c939;
+}
+input{
+    border-radius: 15px;
+    padding: 3%;
 } 

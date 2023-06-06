@@ -18,7 +18,6 @@
         <div class="container">
             <table id="proker">
                 <tr>
-                    <th class="id_proker">Id Proker</th>
                     <th class="nama_proker">Nama Proker</th>
                     <th class="status_proker">Status Proker Kahim</th>
                     <th class="status_proker">Status Proker Sekben</th>
@@ -32,7 +31,6 @@
                 </tr>
                 <% for (const row of results){ %>
                 <tr>
-                    <td class="id_proker"><%= row.idProker %></td>
                     <td class="nama_proker">
                         <b><%= row.namaProker %></b>
                         <br></br>
@@ -48,6 +46,7 @@
 
                     <td class="view"><a href="#isiProposal">Lihat Isi</td>
                     <td class="view"><a href="#isiRAB">Lihat Isi</td>
+                    <td class="view add_anggota"><a href="#addUser">Add Anggota</a></td>
                 </tr>
                 <% } %>
 
