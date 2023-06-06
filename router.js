@@ -744,18 +744,16 @@ route.get('/daftarTopik2',express.urlencoded(), async(req,res) => {
     conn.release();
 });
 
-//get delete topik
-route.get('/daftarTopik3',express.urlencoded(), async(req,res) => {
+//Untuk Delete User
+route.get('/daftarUser2',express.urlencoded(), async(req,res) => {
     const conn = await dbConnect();
-    let results = await getTopik(conn);
-    let comments = await getKomen(conn);
-    let namaKomen = await getNamaD(conn)
+    let results = await getUsers(conn);
     const nama = req.session.name;
-    const idTopik = req.body.kTopik
+    const npm = req.body.npm;
     if(req.session.loggedin){
-        if(req.session.role=="Admin"){
-            res.render('daftarTopik',{
-                results,comments, nama, idTopik, namaKomen
+        if(req.session.role== 1){
+            res.render('daftarUser',{
+                results, comments, nama, npm
             })
         }
         else{
@@ -768,7 +766,7 @@ route.get('/daftarTopik3',express.urlencoded(), async(req,res) => {
     conn.release();
 });
 
-//mengubah status skripsi
+//mengubah status proker
 route.post('/daftarTopik',express.urlencoded(), async(req,res) => {
     const conn = await dbConnect();
     const ubahStat = req.body.gantiStat;
@@ -783,15 +781,16 @@ route.post('/daftarTopik',express.urlencoded(), async(req,res) => {
     else{
         res.send('Data Error')
     }
+    const id = req.body.id;
 });
 
-//delete topik
-route.post('/daftarTopik3',express.urlencoded(), async(req,res) => {
+//delete user
+route.post('/daftarUser2',express.urlencoded(), async(req,res) => {
     const conn = await dbConnect();
-    const idTopik = req.body.noTopik;
-    var sql = `DELETE FROM topik WHERE idTopik ='${idTopik}'`
-    conn.query(sql, [idTopik], ()=>{
-        res.redirect('/daftarTopik')
+    const npm = req.body.npm;
+    var sql = `DELETE FROM users WHERE NPM ='${npm}'`
+    conn.query(sql, [npm], ()=>{
+        res.redirect('/daftarUser')
         res.end();
     })
 });
@@ -1071,6 +1070,7 @@ route.get('/daftarUser',express.urlencoded(), async(req,res) => {
     const conn = await dbConnect();
     let results = await getUsers(conn);
     conn.release();
+    var npm = req.session.NPM;
     var nama = req.session.name;
     var noID = req.session.noID;
     var idRole = req.session.role;
@@ -1078,7 +1078,7 @@ route.get('/daftarUser',express.urlencoded(), async(req,res) => {
     if(req.session.loggedin){
         if(idRole== 1){
             res.render('daftarUser', {
-                nama, noID, idRole, namaRole,results
+                npm, nama, noID, idRole, namaRole,results
             });
         }
         else{
@@ -1149,3 +1149,19 @@ route.get('/isiRAB',express.urlencoded(), async(req,res) => {
         res.redirect('/')
     }
 });
+
+// Route for viewing the proposal
+route.get('/isiProp/:id',async (req, res) => {
+    const conn = await dbConnect()
+    let proposalData = await getProposal(conn);
+    const id = req.params.id;
+    res.render('isiProp', { id, proposalData });
+
+  });
+  
+  // Route for viewing the RAB
+  route.get('/lihatRab/:id', (req, res) => {
+    const id = req.params.id;
+    res.render('lihatRab', { id, rabData }); 
+  });
+  
