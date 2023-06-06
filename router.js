@@ -24,6 +24,30 @@ const getProker = conn => {
     });
 };
 
+const getProkerKordiv = (conn, idDiv) => {
+    return new Promise((resolve, reject) => {
+        conn.query(`SELECT * FROM proker WHERE idDivisi = ${idDiv} `, (err, result)=> {
+            if(err){
+                reject(err);
+            }else{
+                resolve(result);
+            }
+        });
+    });
+};
+
+const getProkerSekben = (conn) => {
+    return new Promise((resolve, reject) => {
+        conn.query(`SELECT * FROM proker WHERE statusProkSekben = "PENDING" `, (err, result)=> {
+            if(err){
+                reject(err);
+            }else{
+                resolve(result);
+            }
+        });
+    });
+};
+
 const getTopikFilter = (conn,getName) => {
     return new Promise((resolve, reject) => {
         conn.query(`SELECT * FROM topik JOIN dosen ON topik.noDosen = dosen.noDosen WHERE dosen.namaD LIKE '%${getName}%' ` , (err, result)=> {
@@ -62,7 +86,7 @@ const getNamaD = (conn,idTopik) => {
 
 const getUsers = conn => {
     return new Promise((resolve,reject) => {
-        conn.query('SELECT * FROM users INNER JOIN role ON users.idRole = role.idRole', (err,result) => {
+        conn.query('SELECT * FROM users INNER JOIN role ON users.idRole = role.idRole ORDER BY users.idRole asc', (err,result) => {
             if(err){
                 reject(err);
             }else{
@@ -207,9 +231,9 @@ const updateUsername = (conn,usernameDiganti,results) => {
 }
 
 //query untuk memasukan akun baru ke database
-const addAkun = (conn,nama,username,password,noDosen,roles) => {
+const addAkun = (conn,npm, nama,password,roles) => {
     return new Promise((resolve,reject) => {
-        conn.query(`INSERT INTO dosen (namaD,noDosen,username,pwd,roles) VALUES ('${nama}','${noDosen}','${username}','${password}','${roles}')`,(err,result) => {
+        conn.query(`INSERT INTO users(NPM,nama,pwd,idRole) VALUES ('${npm}','${nama}','${password}','${roles}')`,(err,result) => {
             if(err){
                 reject(err)
             }
@@ -248,7 +272,7 @@ const getUsersPage2 = (conn,startLimit,resultsPage) => {
 //query untuk mendapatkan nilai terbesar dari idtopik di tabel topik
 const getMax = conn => {
     return new Promise((resolve, rejects) =>{
-        conn.query('SELECT MAX(idTopik) as max FROM topik',(err, result) =>{
+        conn.query('SELECT MAX(idProker) as max FROM proker',(err, result) =>{
             if(err){
                 rejects(err);
             }else{
@@ -272,9 +296,9 @@ const getMaxRev = conn => {
 };
 
 //query untuk menambahkan topik
-const tambahTopik = (conn,idx, judul, bidang, tipeS, noID, periode) => {
+const tambahProker = (conn,idx, namaP, isiP, idDiv) => {
     return new Promise((resolve,reject) => {
-        conn.query(`INSERT INTO topik (idTopik, judulTopik, peminatan, tipe, noDosen, tahunAjaran, statusSkripsi) VALUES (${idx},'${judul}', '${bidang}','${tipeS}', '${noID}', '${periode}', "NULL") `,(err,result) => {
+        conn.query(`INSERT INTO proker (idProker, namaProker, isiProker, statusProkKetua, statusProkSekben, idDivisi, isiKomenKetua, isiKomenSekben) VALUES (${idx},'${namaP}', '${isiP}',"PENDING", "PENDING", '${idDiv}', 0, 0) `,(err,result) => {
             if(err){
                 reject(err);
             }
@@ -376,13 +400,19 @@ route.get('/daftarProker',express.urlencoded(), async(req,res) => {
         }
      }
     else if(req.session.loggedin){
-        if(req.session.role == 2 || req.session.role == 3 || req.session.role == 4 || req.session.role == 5 || req.session.role == 6
-            || req.session.role == 7 || req.session.role == 8 || req.session.role == 9 || req.session.role == 10 || req.session.role == 11
+        if(req.session.role == 9 || req.session.role == 10 || req.session.role == 11
             || req.session.role == 12 || req.session.role == 13 || req.session.role == 14){
             res.render('daftarProker',{
                 results
             })
         }
+        else if(req.session.role == 2){
+            res.redirect('/daftarProkerSekben')
+        }
+        else if(req.session.role == 3 || req.session.role == 4 || req.session.role == 5 || req.session.role == 6
+            || req.session.role == 7 || req.session.role == 8){
+                res.redirect('/daftarProkerKordiv')
+            }
         else{
             res.redirect('/daftarProkerAdmin')
         }
@@ -394,17 +424,18 @@ route.get('/daftarProker',express.urlencoded(), async(req,res) => {
     console.log(results)
     });
 
-    route.get('/daftarProkerAdmin',express.urlencoded(), async(req,res) => {
+    //daftar proker sekben
+    route.get('/daftarProkerSekben',express.urlencoded(), async(req,res) => {
         const conn = await dbConnect();
-        let results = await getProker(conn);
+        let results = await getProkerSekben(conn);
         const idTopik = req.body.aTopik
         const getName = req.query.filter;
         const nama = req.session.name;
         if(getName != undefined && getName.length){
             results = await getTopikFilter(conn,getName);
             if(req.session.loggedin){
-                if(req.session.role == 1){
-                    res.render('daftarProkerAdmin',{
+                if(req.session.role == 2){
+                    res.render('daftarProkerSekben',{
                         results,comments, nama, idTopik, namaKomen
                     })
                 }
@@ -418,8 +449,8 @@ route.get('/daftarProker',express.urlencoded(), async(req,res) => {
             }
          }
         else if(req.session.loggedin){
-            if(req.session.role == 1){
-                res.render('daftarProkerAdmin',{
+            if(req.session.role == 2){
+                res.render('daftarProkerSekben',{
                     results
                 })
             }
@@ -434,6 +465,247 @@ route.get('/daftarProker',express.urlencoded(), async(req,res) => {
         console.log(results)
         });
 
+        route.get('/daftarProkerAdmin',express.urlencoded(), async(req,res) => {
+            const conn = await dbConnect();
+            let results = await getProker(conn);
+            const idTopik = req.body.aTopik
+            const getName = req.query.filter;
+            const nama = req.session.name;
+            if(getName != undefined && getName.length){
+                results = await getTopikFilter(conn,getName);
+                if(req.session.loggedin){
+                    if(req.session.role == 1){
+                        res.render('daftarProkerAdmin',{
+                            results,comments, nama, idTopik, namaKomen
+                        })
+                    }
+                    else{
+                        res.redirect('/daftarProker')
+                    }
+                }
+                else{
+                    req.flash('message','anda harus login terlebih dahulu')
+                    res.redirect('/');
+                }
+             }
+            else if(req.session.loggedin){
+                if(req.session.role == 1){
+                    res.render('daftarProkerAdmin',{
+                        results
+                    })
+                }
+                else{
+                    res.redirect('/daftarProker')
+                }
+            }else{
+                req.flash('message', 'Anda harus login terlebih dahulu');
+                res.redirect('/')
+            }
+            conn.release();
+            console.log(results)
+            });
+
+            //daftar proker kordiv
+            route.get('/daftarProkerKordiv',express.urlencoded(), async(req,res) => {
+                const idDiv = req.session.role
+                const conn = await dbConnect();
+                let results = await getProkerKordiv(conn, idDiv);
+                const idTopik = req.body.aTopik
+                const getName = req.query.filter;
+                const nama = req.session.name;
+                if(getName != undefined && getName.length){
+                    results = await getTopikFilter(conn,getName);
+                    if(req.session.loggedin){
+                        if(req.session.role == 3 || req.session.role == 4 || req.session.role == 5 || req.session.role == 6
+                            || req.session.role == 7 || req.session.role == 8){
+                            res.render('daftarProkerKordiv',{
+                                results
+                            })
+                        }
+                        else{
+                            res.redirect('/daftarProker')
+                        }
+                    }
+                    else{
+                        req.flash('message','anda harus login terlebih dahulu')
+                        res.redirect('/');
+                    }
+                 }
+                else if(req.session.loggedin){
+                    if(req.session.role == 3 || req.session.role == 4 || req.session.role == 5 || req.session.role == 6
+                        || req.session.role == 7 || req.session.role == 8){
+                        res.render('daftarProkerKordiv',{
+                            results
+                        })
+                    }
+                    else{
+                        res.redirect('/daftarProker')
+                    }
+                }else{
+                    req.flash('message', 'Anda harus login terlebih dahulu');
+                    res.redirect('/')
+                }
+                conn.release();
+                console.log(results)
+                });
+
+                route.get('/daftarProkerSekben',express.urlencoded(), async(req,res) => {
+                    const conn = await dbConnect();
+                    let results = await getProker(conn);
+                    const idTopik = req.body.aTopik
+                    const getName = req.query.filter;
+                    const nama = req.session.name;
+                    if(getName != undefined && getName.length){
+                        results = await getTopikFilter(conn,getName);
+                        if(req.session.loggedin){
+                            if(req.session.role == 2){
+                                res.render('daftarProkerSekben',{
+                                    results,comments, nama, idTopik, namaKomen
+                                })
+                            }
+                            else{
+                                res.redirect('/daftarProker')
+                            }
+                        }
+                        else{
+                            req.flash('message','anda harus login terlebih dahulu')
+                            res.redirect('/');
+                        }
+                     }
+                    else if(req.session.loggedin){
+                        if(req.session.role == 2){
+                            res.render('daftarProkerSekben',{
+                                results
+                            })
+                        }
+                        else{
+                            res.redirect('/daftarProker')
+                        }
+                    }else{
+                        req.flash('message', 'Anda harus login terlebih dahulu');
+                        res.redirect('/')
+                    }
+                    conn.release();
+                    console.log(results)
+                    });
+            
+                    route.get('/daftarProkerAdmin',express.urlencoded(), async(req,res) => {
+                        const conn = await dbConnect();
+                        let results = await getProker(conn);
+                        const idTopik = req.body.aTopik
+                        const getName = req.query.filter;
+                        const nama = req.session.name;
+                        if(getName != undefined && getName.length){
+                            results = await getTopikFilter(conn,getName);
+                            if(req.session.loggedin){
+                                if(req.session.role == 1){
+                                    res.render('daftarProkerAdmin',{
+                                        results,comments, nama, idTopik, namaKomen
+                                    })
+                                }
+                                else{
+                                    res.redirect('/daftarProker')
+                                }
+                            }
+                            else{
+                                req.flash('message','anda harus login terlebih dahulu')
+                                res.redirect('/');
+                            }
+                         }
+                        else if(req.session.loggedin){
+                            if(req.session.role == 1){
+                                res.render('daftarProkerAdmin',{
+                                    results
+                                })
+                            }
+                            else{
+                                res.redirect('/daftarProker')
+                            }
+                        }else{
+                            req.flash('message', 'Anda harus login terlebih dahulu');
+                            res.redirect('/')
+                        }
+                        conn.release();
+                        console.log(results)
+                        });
+            
+                        route.get('/addProker',express.urlencoded(), async(req,res) => {
+                            const conn = await dbConnect();
+                            const message = req.flash('message')
+                            conn.release();
+                            if(req.session.loggedin){
+                                res.render('addProker', { message
+                                });
+                            }
+                             else {
+                                res.redirect('/')
+                            }
+                        });
+
+                        route.post('/addProker',express.urlencoded(), async(req,res) => {
+                             //Buat dapetin noDosen
+                            const namaP = req.body.addProker;
+                            const isiP= req.body.addIsi;
+                            const idDiv = req.session.role;
+                            const conn = await dbConnect();
+                            let results = await getProker(conn)
+                            var maxID = await getMax(conn); //Buat dapetin IdTopik terbesar di DB
+                            var idx = maxID[0].max+1;
+                        
+                            if(req.session.loggedin){
+                                res.redirect('/daftarProkerKordiv')
+                            }
+                            else{
+                                req.flash('message', 'Anda harus login terlebih dahulu');
+                                res.redirect('/')
+                            }
+                            if(namaP.length > 0 && isiP.length > 0 ){
+                                await tambahProker(conn,idx, namaP, isiP, idDiv);
+                            }
+                        });
+        
+                route.get('/daftarProkerAdmin',express.urlencoded(), async(req,res) => {
+                    const conn = await dbConnect();
+                    let results = await getProker(conn);
+                    const idTopik = req.body.aTopik
+                    const getName = req.query.filter;
+                    const nama = req.session.name;
+                    if(getName != undefined && getName.length){
+                        results = await getTopikFilter(conn,getName);
+                        if(req.session.loggedin){
+                            if(req.session.role == 1){
+                                res.render('daftarProkerAdmin',{
+                                    results,comments, nama, idTopik, namaKomen
+                                })
+                            }
+                            else{
+                                res.redirect('/daftarProker')
+                            }
+                        }
+                        else{
+                            req.flash('message','anda harus login terlebih dahulu')
+                            res.redirect('/');
+                        }
+                     }
+                    else if(req.session.loggedin){
+                        if(req.session.role == 1){
+                            res.render('daftarProkerAdmin',{
+                                results
+                            })
+                        }
+                        else{
+                            res.redirect('/daftarProker')
+                        }
+                    }else{
+                        req.flash('message', 'Anda harus login terlebih dahulu');
+                        res.redirect('/')
+                    }
+                    conn.release();
+                    console.log(results)
+                    });
+        
+
+            
     route.get('/daftarRAB',express.urlencoded(), async(req,res) => {
         const conn = await dbConnect();
         let results = await getProker(conn);
@@ -560,32 +832,6 @@ route.get('/', async(req,res) => {
         }
     });
     
-    route.post('/unggahTopik',express.urlencoded(), upload.single("fileTopik"), async(req,res) => {
-        const noID = req.session.noID; //Buat dapetin noDosen
-        const judul = req.body.judulT;
-        const bidang = req.body.peminatan;
-        const tipeT = req.body.tipeSkripsi;
-        const periode = req.body.periode;
-        const conn = await dbConnect();
-        var maxID = await getMax(conn); //Buat dapetin IdTopik terbesar di DB
-        var idx = maxID[0].max+1;
-    
-        if(req.session.loggedin){
-            res.render('unggahTopik', {
-                noID, idx, judul, bidang, tipeT,periode
-            });
-        }
-        else{
-            req.flash('message', 'Anda harus login terlebih dahulu');
-            res.redirect('/')
-        }
-        if(judul.length > 0 && bidang.length > 0 && tipeT.length > 0 && periode.length>0 ){
-            await tambahTopik(conn,idx, judul, bidang, tipeT, noID,periode);
-            res.sendFile('unggahTopik.ejs', {root: "./views"})
-        }
-        
-        conn.release();
-    });
 
 //mengambil koneksi untuk skripsiSaya
 route.get('/skripsiSaya', async(req,res) => {
@@ -768,7 +1014,7 @@ route.post('/daftarTopik',express.urlencoded(), async(req,res) => {
     var sql = `UPDATE proker SET statusProk = '${ubahStat}' WHERE idProker ='${idProker}'`
     if(ubahStat == "DITERIMA"|| ubahStat == "REVISI" || ubahStat == "PENDING"){
         conn.query(sql, [ubahStat,idProker], ()=>{
-            res.redirect('/daftarTopik')
+            res.redirect('/daftarProkerAdmin')
             res.end();
         })
     }
@@ -990,18 +1236,17 @@ route.get('/addUser',express.urlencoded(),async(req,res) => {
 route.post('/addAkun',express.urlencoded(),async(req,res) => {
 
     if(req.session.loggedin){
-        if(req.session.role=="Admin"){
+        if(req.session.role==1){
         const conn = await dbConnect();
-        const nama = req.body.gantiNama
-        const username = req.body.gantiUsername;
-        const password = req.body.gantiPassword;
-        const noDosen = req.body.gantiNoDosen;
+        const nama = req.body.addNama
+        const password = req.body.addPassword;
+        const npm = req.body.addNPM;
         const roles = req.body.Roles;
         console.log(nama)
-        if(nama.length > 0 && username.length > 0 && password.length > 0 && noDosen.length > 0 && roles.length > 0){
-            if(roles =="Admin" || roles == "Dosen"){
-                await addAkun(conn,nama,username,password,noDosen,roles)
-                res.redirect('/kelolaAkun')
+        if(nama.length > 0 && password.length > 0 && npm.length > 0 && roles.length > 0){
+            if(req.session.role ==1){
+                await addAkun(conn, npm, nama,password,roles)
+                res.redirect('/daftarUser')
             }
             else{
                 res.send('error')
@@ -1082,4 +1327,63 @@ route.get('/daftarUser',express.urlencoded(), async(req,res) => {
         res.redirect('/')
     }
 });
-// DropDown Status DaftarSkirpsi
+
+// get current proposal
+const getCurrentProposal = conn => {
+    return new Promise((resolve,reject) => {
+        conn.query('SELECT * FROM proposal', (err,result) => {
+            if(err){
+                reject(err);
+            }else{
+                resolve(result);
+            }
+        });
+    });
+};
+// Halaman isiProposal
+route.get('/isiProposal',express.urlencoded(), async(req,res) => {
+    const conn = await dbConnect();
+    let results = await getCurrentProposal(conn);
+    conn.release();
+    var nama = req.session.name;
+    var noID = req.session.noID;
+    var idRole = req.session.role;
+    var namaRole = req.session.namaRole;
+    if(req.session.loggedin){
+        if(idRole== 1 || idRole == 2){
+            res.render('isiProp', {
+                nama, noID, idRole, namaRole,results
+            });
+        }
+        else{
+            res.send('Anda tidak memiliki akses')
+        }
+    } else {
+        req.flash('message', 'Anda harus login terlebih dahulu');
+        res.redirect('/')
+    }
+});
+
+// Halaman isiRAB
+route.get('/isiRAB',express.urlencoded(), async(req,res) => {
+    const conn = await dbConnect();
+    let results = await getCurrentProposal(conn);
+    conn.release();
+    var nama = req.session.name;
+    var noID = req.session.noID;
+    var idRole = req.session.role;
+    var namaRole = req.session.namaRole;
+    if(req.session.loggedin){
+        if(idRole== 1){
+            res.render('isiRAB', {
+                nama, noID, idRole, namaRole,results
+            });
+        }
+        else{
+            res.send('Anda tidak memiliki akses')
+        }
+    } else {
+        req.flash('message', 'Anda harus login terlebih dahulu');
+        res.redirect('/')
+    }
+});

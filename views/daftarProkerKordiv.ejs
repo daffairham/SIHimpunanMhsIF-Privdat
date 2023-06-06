@@ -7,7 +7,6 @@
         <link rel="stylesheet" href="assets/daftarProker.css">
         <link rel="stylesheet" href="../public/assets/header.css">
 
-
         <title>Daftar Program Kerja</title>
     </head>
 
@@ -47,19 +46,15 @@
                     <td class="status_proker"><%= row.statusRABSekben %></td>
 
 
-                    <td class="view">
-                        <a href="#isiProposal">Lihat Isi</a>
-                        <button>Add Proposal</button>
-                        </td>
-                    <td class="view">
-                        <a href="#isiRAB">Lihat Isi</a>
-                        <button>Add RAB</button>
-
-                        </td>
+                    <td class="view"><a href="#isiProposal">Lihat Isi</td>
+                    <td class="view"><a href="#isiRAB">Lihat Isi</td>
                 </tr>
                 <% } %>
 
             </table>
+        </div>
+        <div id="container_add">
+            <a href="http://localhost:8080/addProker"><button class="button add">Add Program Kerja</button></a>
         </div>
     </body>
 </html>

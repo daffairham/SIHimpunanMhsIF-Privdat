@@ -4,85 +4,104 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/daftarProkerAdmin.css">
     <link rel="stylesheet" href="assets/daftarTopik.css">
+
     <title>Daftar Program Kerja</title>
 </head>
 
 <body>
     <header>
-        <%- include('./layout/head.ejs') %>
+        <%- include('./layout/headerAdmin.ejs') %>
     </header>
-    <div class="skripsiSayaContainer">
-        <div class="skripsiSayaTop">
+    <h2>Daftar Program Kerja</h2>
+    <div class="container">
+        <table id="proker">
+            <tr>
+                <th class="id_proker">Id Proker</th>
+                <th class="nama_proker">Nama & Penjelasan Proker</th>
+                <th class="status_proker">Status Proker</th>
+                <th class="status_proker">Status Proposal</th>
+                <th class="status_proker">Status RAB</th>
+                <th class="view">Proposal</th>
+                <th class="view">RAB</th>
+            </tr>
+            <% for (const row of results){ %>
+            <tr>
+                <td class="id_proker"><%= row.idProker %></td>
+                <td class="nama_proker">
+                    <b><%= row.namaProker %></b>
+                    <br></br>
+                    <%= row.isiProker %>
+                </td>
+                <td class="status_proker">
+                    <form action="/daftarTopik" method="POST">
+                        <select name="gantiStat">
+                            <option selected value><%= row.statusProkKetua %> </option>
+                            <option value="DITERIMA" name="DITERIMA">DITERIMA</option>
+                            <option value="REVISI" name="REVISI">REVISI</option>
+                            <option value="PENDING" name="PENDING">PENDING</option>
+                            <option value="PENDING" name="PENDING">LANJUT KE KAPRODI</option>     
 
-            <a href="http://localhost:8080/homeAdmin">
-                <img src="assets/images/leftArrow.png" alt="">
-            </a>
+                        </select>
+                        <input type="hidden" name ="noTopik" value="<%= row.idProker %>">
+                        <input type="submit" name="updateStat" class="gantiStat" onclick="redirect" value="Ganti Status">
+                    </form>
+                    
+                    
+                </td>
+                <td class="status_proker">
+                    <form action="/daftarTopik" method="POST">
+                        <select name="gantiStat">
+                            <option selected value><%= row.statusPropKetua %> </option>
+                            <option value="DITERIMA" name="DITERIMA">DITERIMA</option>
+                            <option value="REVISI" name="REVISI">REVISI</option>
+                            <option value="PENDING" name="PENDING">PENDING</option>     
+                        </select>
+                        <input type="hidden" name ="noTopik" value="<%= row.idProker %>">
+                        <input type="submit" name="updateStat" class="gantiStat" onclick="redirect" value="Ganti Status">
+                    </form>
+                    
+                    
+                </td>
+                <td class="status_proker">
+                    <form action="/daftarTopik" method="POST">
+                        <select name="gantiStat">
+                            <option selected value><%= row.statusPropKetua %> </option>
+                            <option value="DITERIMA" name="DITERIMA">DITERIMA</option>
+                            <option value="REVISI" name="REVISI">REVISI</option>
+                            <option value="PENDING" name="PENDING">PENDING</option>     
+                        </select>
+                        <input type="hidden" name ="noTopik" value="<%= row.idProker %>">
+                        <input type="submit" name="updateStat" class="gantiStat" onclick="redirect" value="Ganti Status">
+                    </form>
+                    
+                    
+                </td>
+                <td class="view"><a href="http://localhost:8080/isiProposal"+<%= row.idProker %>>Lihat Isi</td>
+                <td class="view"><a href="http://localhost:8080/isiRAB"+<%= row.idProker %>>Lihat Isi</td>
+            </tr>
+            <% } %>
 
-            <h3>Daftar Program Kerja</h3>
-            <p class="dueDateUnggah">Due/05/2022</p>
-            <div class="searchAkun">
-                <form method="GET" action="/daftarTopik">
-                    <fieldset>
-                        <legend>Search by Name</legend>
-                        <input type="text" name="filter" value="<%= %>">
-                    <input type="submit" class="submitAkun" value="SEARCH">
-                </form>
-            </div>
-            
-
-        </div>
-        <br>
-        <div class="skripsiSayaMain">
-            <div class="innerMain">
-                <% for(const row of results) { %> 
-                <a class="wrapper">
-                    <div class="innerMain1">
-                        <div class="icon">
-                            <img src="assets/images/bookIcon.jpg" class="bookIcon" alt="">
-                        </div>
-                        <div class="textContent">
-                            <h3><%= row.namaProker %></h3>
-                            <p><%= row.isiProker %></p>
-                        </div>
-
-                        <div class="editButton">
-                            <form action="/daftarTopik" method="post">
-                            <div>
-                                <p>Status: <b><%= row.statusProk %></b> </p>
-                                    <select name="gantiStat">
-                                        <option selected value="<%= row.statusProk %>"> </option>
-                                        <option value="DITERIMA" name="DITERIMA">DITERIMA</option>
-                                        <option value="REVISI" name="REVISI">REVISI</option>
-                                        <option value="PENDING" name="PENDING">PENDING</option>
-                                    </select>
-                                    <br>
-                                    <input type="hidden" name ="noTopik" value="<%= row.idProker %>">
-                                    <input type="submit" name="updateStat" class="gantiStat" onclick="redirect" value="Ganti Status">
-                                    <br>
-                                </form>
-                                    <form action="/daftarTopik3" method="post">
-                                        <input type="submit" name="deleteTopik" class="delete" onclick="redirect" value="DELETE">
-                                    </form>
-                                
-                            </div>
-                        </div>
-                        
-                        <!-- bagian Comments -->
-                    </div>
-
-                        </div>
-                    </div>
-                </a>
-                
-                <% } %> 
-            </div>
-        </div>
+        </table>
     </div>
-
-    <footer>
-        <%- include('./layout/footer.ejs') %>
-    </footer>
-
+    <div class="container_comment_luar">
+        <fieldset class="container_comment"> <b>Add Comment</b>
+            <form action="#addCommentKetua" method="post">
+                <select>
+                    <% for (const row of results){ %>
+                        <option><%= row.namaProker %></option>    
+                        <% } %>    
+                </select>
+                <textarea></textarea>
+                
+                <input type="submit" name="updateComment" class="gantiComment" onclick="redirect" value="Submit">
+            </form>
+                    
+        </fieldset>
+    </div>
 </body>
 </html>
+
+
+

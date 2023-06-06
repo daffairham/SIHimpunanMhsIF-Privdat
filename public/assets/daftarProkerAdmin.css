@@ -1,0 +1,68 @@
+.container{
+    width: 100%;
+    font-size: 16px;
+}
+
+.id_proker{
+   width: 5%;
+   text-align: center; 
+}
+.nama_proker{
+    width: 25%;
+    text-align: center;
+    padding-left: 5%;
+    padding-right: 5%; 
+ }
+.status_proker{
+    width: 5%;
+    text-align: center;  
+ }
+.view{
+    text-align: center;
+    width: 2%;
+}
+#proker{
+    background-color: #B7DBE0;
+    margin: 2%;
+    padding: 2%;
+    border: 2px solid black;
+     border-radius: 25px;
+}
+.container_comment_luar{
+    width: 50%;
+    margin: 2%;
+}
+h2{
+    margin: 2%;
+}
+th{
+    font-size: 24px;
+}
+fieldset{
+    font-size: 25px;
+    border-radius: 25px;
+    background-color: #B7DBE0;
+}
+select{
+    width: 100%;
+    font-size: 18px;
+    border: none;
+    border-radius: 15px;
+    margin: 2%;
+    margin-left: 0;
+} 
+form input{
+    border: none;
+    font-size: 18px;
+}
+form textarea{
+    width: 100%;
+    height: 100px;
+} 
+.gantiComment{
+    float: right;
+    padding: 2%;
+    width: 25%;
+    border-radius: 15px;
+    background-color:#4877c939;
+} 
