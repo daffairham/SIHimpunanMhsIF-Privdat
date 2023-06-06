@@ -1343,6 +1343,18 @@ const getCurrentProposal = conn => {
         });
     });
 };
+
+const getCurrentRab = conn => {
+    return new Promise((resolve,reject) => {
+        conn.query('SELECT * FROM rab', (err,result) => {
+            if(err){
+                reject(err);
+            }else{
+                resolve(result);
+            }
+        });
+    });
+};
 // Halaman isiProposal
 route.get('/isiProposal',express.urlencoded(), async(req,res) => {
     const conn = await dbConnect();
@@ -1370,14 +1382,14 @@ route.get('/isiProposal',express.urlencoded(), async(req,res) => {
 // Halaman isiRAB
 route.get('/isiRAB',express.urlencoded(), async(req,res) => {
     const conn = await dbConnect();
-    let results = await getCurrentProposal(conn);
+    let results = await getCurrentRab(conn);
     conn.release();
     var nama = req.session.name;
     var noID = req.session.noID;
     var idRole = req.session.role;
     var namaRole = req.session.namaRole;
     if(req.session.loggedin){
-        if(idRole== 1){
+        if(idRole== 1 ){
             res.render('isiRAB', {
                 nama, noID, idRole, namaRole,results
             });
