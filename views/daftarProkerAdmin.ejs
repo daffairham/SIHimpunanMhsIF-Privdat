@@ -28,17 +28,17 @@
             <% for (const row of results){ %>
             <tr>
                 <td class="nama_proker">
+                    <form action="/isiProkerAdmin" method="post">
                     <b><%= row.namaProker %></b>
+                    <input type="hidden" name ="id" value="<%= row.idProker %>">
                     <br>
-                    <a id="detail_proker" href="http://localhost:8080/isiProkerAdmin">Click to Show Details</a>
-                    <script>
-
-                    </script>
+                    <input type="submit" class="show_details" value="Click to Show Details">
+                    </form>
                 </td>
                 <td class="status_proker">
                     <form action="/daftarTopik" method="POST">
                         <select name="gantiStat">
-                            <option selected value><%= row.statusProkKetua %> </option>
+                            <option selected value><%= row.statusProk %></option>
                             <option value="DITERIMA" name="DITERIMA">DITERIMA</option>
                             <option value="REVISI" name="REVISI">REVISI</option>
                             <option value="PENDING" name="PENDING">PENDING</option>
@@ -76,8 +76,9 @@
                         <input type="hidden" name ="noTopik" value="<%= row.idProker %>">
                         <input type="submit" name="updateStat" class="gantiStat" onclick="redirect" value="Ganti Status">
                     </form>
-                    
-                    
+                    <form action="/isiProp/<%= row.idProker %>" method="get">
+                        <button type="submit">Lihat Proposal</button>
+                      </form>
                 </td>
                 <td class="view"><a href="http://localhost:8080/isiProposal"+<%= row.idProker %>>Lihat Isi</td>
                 <td class="view"><a href="http://localhost:8080/isiRAB"+<%= row.idProker %>>Lihat Isi</td>

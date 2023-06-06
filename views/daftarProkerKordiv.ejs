@@ -32,9 +32,12 @@
                 <% for (const row of results){ %>
                 <tr>
                     <td class="nama_proker">
-                        <b><%= row.namaProker %></b>
-                        <a id="detail_proker" href="http://localhost:8080/isiProker">Click to Show Details</a>
-                        
+                        <form action="/isiProker" method="post">
+                            <b><%= row.namaProker %></b>
+                            <input type="hidden" name ="id" value="<%= row.idProker %>">
+                            <br>
+                            <input type="submit" class="show_details" value="Click to Show Details">
+                            </form>
                     </td>
                     <td class="status_proker"><%= row.statusProkKetua %></td>
                     <td class="status_proker"><%= row.statusProkSekben %></td>
@@ -49,7 +52,7 @@
                     <td class="view add_anggota"><a href="#addUser">Add Anggota</a></td>
                 </tr>
                 <% } %>
-
+                
             </table>
         </div>
         <div id="container_add">

@@ -4,39 +4,46 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/daftarProkerAdmin.css">
-    <link rel="stylesheet" href="assets/daftarTopik.css">
+    <link rel="stylesheet" href="/assets/daftarProkerAdmin.css">
+    <link rel="stylesheet" href="/assets/daftarTopik.css">
 
-    <title>Program Kerja</title>
+    <% for (const row of results){ %>
+    <title><%= row.namaProker  %></title>
+    <% } %>
 </head>
 
 <body>
     <header>
-        <%- include('./layout/header.ejs') %>
+        <%- include('./layout/headerAdmin.ejs') %>
     </header>
 
     <div id="container_isiProker">
-        <b style="float:right">Status : PENDING</b>
+        <% for (const row of results){ %>
+        <b style="float:right">STATUS: <%= row.statusProkSekben  %></b>
         <b>Nama Proker</b>
         <br>
-        <p>I Care baksos panti cadas hikmat</p>
+        <p><%= row.namaProker  %></p>
         <br>
         <b>Deskripsi Proker</b>
         <br>
-        <p>Mengajarkan mengenai dasar - dasar pemrogramman untuk bahasa java seperti pembuatan method sederhana, input output, dan lainnya.</p>
+        <p><%= row.isiProker  %></p>
         <br>
         <table id="anggota_proker">
+            <h3>Daftar Anggota</h3>
             <tr>
                 <th>NPM</th>
                 <th>Nama</th>
                 <th>Peran</th>
             </tr>
 
+            <% for (const row of staffs){ %>
             <tr>
-                <td>19012</td>
-                <td>Agus</td>
-                <td>Ketua Pelaksana</td>
+                <td><%= row.npm  %></td>
+                <td><%= row.nama  %></td>
+                <td><%= row.peran  %></td>
             </tr>
+            <% } %>
         </table>
+        <% } %>
     </div>
 </body>
