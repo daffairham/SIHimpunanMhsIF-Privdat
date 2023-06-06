@@ -109,6 +109,27 @@ input{
     font-size: 20px;
 }
 
+
 .add:hover{
     background-color: greenyellow;
+}
+.submit_id{
+    width: 100%;
+    margin-right:5%;
+    padding: 5%;
+    background-color: aliceblue;
+    border: none;
+    border-radius: 10px;
+}
+.submit_id:hover{
+    background-color:#60c1ce;
+}
+.show_details{
+    border: none;
+    border-radius: 25px;
+    
+}
+.show_details:hover{
+    background-color: #60c1ce;
+    
 }

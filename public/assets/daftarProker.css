@@ -60,6 +60,7 @@ th{
     font-size: 20px;
 }
 
+
 .add:hover{
     background-color: greenyellow;
 }
@@ -81,4 +82,22 @@ td a:hover{
     width: 25%;
     padding: 2%;
     margin: auto;
+}
+.buttonAddProposal{
+    padding: 15%;
+    border: none;
+    border-radius: 15px;
+    background-color: aliceblue;
+}
+.buttonAddProposal:hover{
+    background-color: #60c1ce;
+}
+.show_details{
+    border: none;
+    border-radius: 25px;
+    padding: 3%;
+}
+.show_details:hover{
+    background-color: #60c1ce;
+    
 }

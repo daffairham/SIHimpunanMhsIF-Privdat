@@ -31,47 +31,33 @@
                     <th class="view">RAB</th>
                 </tr>
                 <% for (const row of results){ %>
-                    <div class="container">
-                        <table id="proker">
-                            <tr>
-                                <th class="nama_proker">Nama Proker</th>
-                                <th class="status_proker">Status Proker Kahim</th>
-                                <th class="status_proker">Status Proker Sekben</th>
-                                <th class="status_proker">Status Proposal Kahim</th>
-                                <th class="status_proker">Status Proposal Sekben</th>
-                                <th class="status_proker">Status RAB Ketua</th>
-                                <th class="status_proker">Status RAB Sekben</th>
-                                
-                                <th class="view">Proposal</th>
-                                <th class="view">RAB</th>
-                            </tr>
-                            <tr>
-                                <td class="nama_proker">
-                                    <b><%= row.namaProker %></b>
-                                    <br></br>
-                                    <%= row.isiProker %>
-                                </td>
-                                <td class="status_proker"><%= row.statusProkKetua %></td>
-                                <td class="status_proker"><%= row.statusProkSekben %></td>
-                                <td class="status_proker"><%= row.statusPropKetua %></td>
-                                <td class="status_proker"><%= row.statusPropSekben %></td>
-                                <td class="status_proker"><%= row.statusRABKetua %></td>
-                                <td class="status_proker"><%= row.statusRABSekben %></td>
-            
-            
-                                <td class="view">
-                                    <a href="#isiProposal">Lihat Isi</a>
-                                    <button>Add Proposal</button>
-                                    </td>
-                                <td class="view">
-                                    <a href="#isiRAB">Lihat Isi</a>
-                                    <button>Add RAB</button>
-            
-                                    </td>
-                            </tr>
-            
-                        </table>
-                    </div>
+                <tr>
+                    <td class="nama_proker">
+                        <form action="/isiProkerAdmin" method="post">
+                            <b><%= row.namaProker %></b>
+                            <input type="hidden" name ="id" value="<%= row.idProker %>">
+                            <br>
+                            <input type="submit" class="show_details" value="Click to Show Details">
+                        </form>
+                    </td>
+                    <td class="status_proker"><%= row.statusProkKetua %></td>
+                    <td class="status_proker"><%= row.statusProkSekben %></td>
+                    <td class="status_proker"><%= row.statusPropKetua %></td>
+                    <td class="status_proker"><%= row.statusPropSekben %></td>
+                    <td class="status_proker"><%= row.statusRABKetua %></td>
+                    <td class="status_proker"><%= row.statusRABSekben %></td>
+
+
+                    <td class="view">
+                        <a href="#isiProposal">Lihat Isi</a>
+                        <button class="buttonAddProposal">Add Proposal</button>
+                        </td>
+                    <td class="view">
+                        <a href="#isiRAB">Lihat Isi</a>
+                        <button class="buttonAddProposal">Add RAB</button>
+
+                        </td>
+                </tr>
                 <% } %>
             </table>
         </div>

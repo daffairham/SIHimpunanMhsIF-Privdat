@@ -75,13 +75,18 @@
                         </select>
                         <input type="hidden" name ="noTopik" value="<%= row.idProker %>">
                         <input type="submit" name="updateStat" class="gantiStat" onclick="redirect" value="Ganti Status">
-                    </form>
-                    <form action="/isiProp/<%= row.idProker %>" method="get">
-                        <button type="submit">Lihat Proposal</button>
-                      </form>
+                    </form>  
                 </td>
-                <td class="view"><a href="http://localhost:8080/isiProposal"+<%= row.idProker %>>Lihat Isi</td>
-                <td class="view"><a href="http://localhost:8080/isiRAB"+<%= row.idProker %>>Lihat Isi</td>
+                <td>
+                    <form action="/isiProp/<%= row.idProker %>" method="get">
+                        <button type="submit" class="submit_id">Lihat Proposal</button>
+                    </form>
+                </td>
+                <td>
+                    <form action="/isiRAB/<%= row.idProker %>" method="get">
+                        <button type="submit" class="submit_id">Lihat Proposal</button>
+                    </form>
+                </td>
             </tr>
             <% } %>
 
