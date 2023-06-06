@@ -28,12 +28,12 @@
             <% for (const row of results){ %>
             <tr>
                 <td class="nama_proker">
+                    <form action="/isiProkerAdmin" method="post">
                     <b><%= row.namaProker %></b>
+                    <input type="hidden" name ="id" value="<%= row.idProker %>">
                     <br>
-                    <a id="detail_proker" href="http://localhost:8080/isiProkerAdmin">Click to Show Details</a>
-                    <script>
-
-                    </script>
+                    <input type="submit" class="show_details" value="Click to Show Details">
+                    </form>
                 </td>
                 <td class="status_proker">
                     <form action="/daftarTopik" method="POST">
