@@ -18,7 +18,6 @@
         <div class="container">
             <table id="proker">
                 <tr>
-                    <th class="id_proker">Id Proker</th>
                     <th class="nama_proker">Nama Proker</th>
                     <th class="status_proker">Status Proker Kahim</th>
                     <th class="status_proker">Status Proker Sekben</th>
@@ -32,11 +31,13 @@
                 </tr>
                 <% for (const row of results){ %>
                 <tr>
-                    <td class="id_proker"><%= row.idProker %></td>
                     <td class="nama_proker">
-                        <b><%= row.namaProker %></b>
-                        <br></br>
-                        <%= row.isiProker %>
+                        <form action="/isiProker" method="post">
+                            <b><%= row.namaProker %></b>
+                            <input type="hidden" name ="id" value="<%= row.idProker %>">
+                            <br>
+                            <input type="submit" class="show_details" value="Click to Show Details">
+                            </form>
                     </td>
                     <td class="status_proker"><%= row.statusProkKetua %></td>
                     <td class="status_proker"><%= row.statusProkSekben %></td>
@@ -48,6 +49,7 @@
 
                     <td class="view"><a href="#isiProposal">Lihat Isi</td>
                     <td class="view"><a href="#isiRAB">Lihat Isi</td>
+                    <td class="view add_anggota"><a href="#addUser">Add Anggota</a></td>
                 </tr>
                 <% } %>
                 

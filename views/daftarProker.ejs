@@ -16,13 +16,20 @@
             <%- include('./layout/header.ejs') %>
         </header>
         <h2>Daftar Program Kerja</h2>
-        <div class="filter">
-            <label for="" class="filters">Filters: </label>
-            <select class="filter-proker">
-                <option value="PENDING">pending</option>
-                <option value="PENDING">pending</option>    
-            </select>
-        </div>
+        <div class="container">
+            <table id="proker">
+                <tr>
+                    <th class="nama_proker">Nama Proker</th>
+                    <th class="status_proker">Status Proker Kahim</th>
+                    <th class="status_proker">Status Proker Sekben</th>
+                    <th class="status_proker">Status Proposal Kahim</th>
+                    <th class="status_proker">Status Proposal Sekben</th>
+                    <th class="status_proker">Status RAB Ketua</th>
+                    <th class="status_proker">Status RAB Sekben</th>
+                    
+                    <th class="view">Proposal</th>
+                    <th class="view">RAB</th>
+                </tr>
                 <% for (const row of results){ %>
                     <div class="container">
                         <table id="proker">

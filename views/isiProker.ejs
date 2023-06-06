@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/daftarProkerAdmin.css">
+    <link rel="stylesheet" href="/assets/daftarTopik.css">
+
+    <% for (const row of results){ %>
+    <title><%= row.namaProker  %></title>
+    <% } %>
+</head>
+
+<body>
+    <header>
+        <%- include('./layout/headerAdmin.ejs') %>
+    </header>
+
+    <div id="container_isiProker">
+        <% for (const row of results){ %>
+        <b style="float:right">STATUS: <%= row.statusProkKetua  %></b>
+        <b>Nama Proker</b>
+        <br>
+        <p><%= row.namaProker  %></p>
+        <br>
+        <b>Deskripsi Proker</b>
+        <br>
+        <p><%= row.isiProker  %></p>
+        <br>
+        <table id="anggota_proker">
+            <h3>Daftar Anggota</h3>
+            <tr>
+                <th>NPM</th>
+                <th>Nama</th>
+                <th>Peran</th>
+            </tr>
+
+            <% for (const row of staffs){ %>
+            <tr>
+                <td><%= row.npm  %></td>
+                <td><%= row.nama  %></td>
+                <td><%= row.peran  %></td>
+            </tr>
+            <% } %>
+        </table>
+        <% } %>
+    </div>
+    <div class="div_addAnggota">
+        <a href="http://localhost:8080/addProker"><button class="button add div_addAnggota">Add Anggota</button></a>
+    </div>
+</body>
