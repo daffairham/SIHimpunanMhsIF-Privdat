@@ -7,8 +7,12 @@ import path, { resolve } from 'path';
 import { fileURLToPath } from 'url';
 import multer from 'multer';
 import fs from 'fs';
-var route = express.Router();
+
 const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const dirPath = path.join(__dirname, 'uploadedFile');
+var route = express.Router();
+
 
 // query
 
@@ -424,18 +428,17 @@ route.get('/daftarProker',express.urlencoded(), async(req,res) => {
     console.log(results)
     });
 
-    //daftar proker sekben
-    route.get('/daftarProkerSekben',express.urlencoded(), async(req,res) => {
+    route.get('/daftarProkerAdmin',express.urlencoded(), async(req,res) => {
         const conn = await dbConnect();
-        let results = await getProkerSekben(conn);
+        let results = await getProker(conn);
         const idTopik = req.body.aTopik
         const getName = req.query.filter;
         const nama = req.session.name;
         if(getName != undefined && getName.length){
             results = await getTopikFilter(conn,getName);
             if(req.session.loggedin){
-                if(req.session.role == 2){
-                    res.render('daftarProkerSekben',{
+                if(req.session.role == 1){
+                    res.render('daftarProkerAdmin',{
                         results,comments, nama, idTopik, namaKomen
                     })
                 }
@@ -449,8 +452,8 @@ route.get('/daftarProker',express.urlencoded(), async(req,res) => {
             }
          }
         else if(req.session.loggedin){
-            if(req.session.role == 2){
-                res.render('daftarProkerSekben',{
+            if(req.session.role == 1){
+                res.render('daftarProkerAdmin',{
                     results
                 })
             }
@@ -465,247 +468,6 @@ route.get('/daftarProker',express.urlencoded(), async(req,res) => {
         console.log(results)
         });
 
-        route.get('/daftarProkerAdmin',express.urlencoded(), async(req,res) => {
-            const conn = await dbConnect();
-            let results = await getProker(conn);
-            const idTopik = req.body.aTopik
-            const getName = req.query.filter;
-            const nama = req.session.name;
-            if(getName != undefined && getName.length){
-                results = await getTopikFilter(conn,getName);
-                if(req.session.loggedin){
-                    if(req.session.role == 1){
-                        res.render('daftarProkerAdmin',{
-                            results,comments, nama, idTopik, namaKomen
-                        })
-                    }
-                    else{
-                        res.redirect('/daftarProker')
-                    }
-                }
-                else{
-                    req.flash('message','anda harus login terlebih dahulu')
-                    res.redirect('/');
-                }
-             }
-            else if(req.session.loggedin){
-                if(req.session.role == 1){
-                    res.render('daftarProkerAdmin',{
-                        results
-                    })
-                }
-                else{
-                    res.redirect('/daftarProker')
-                }
-            }else{
-                req.flash('message', 'Anda harus login terlebih dahulu');
-                res.redirect('/')
-            }
-            conn.release();
-            console.log(results)
-            });
-
-            //daftar proker kordiv
-            route.get('/daftarProkerKordiv',express.urlencoded(), async(req,res) => {
-                const idDiv = req.session.role
-                const conn = await dbConnect();
-                let results = await getProkerKordiv(conn, idDiv);
-                const idTopik = req.body.aTopik
-                const getName = req.query.filter;
-                const nama = req.session.name;
-                if(getName != undefined && getName.length){
-                    results = await getTopikFilter(conn,getName);
-                    if(req.session.loggedin){
-                        if(req.session.role == 3 || req.session.role == 4 || req.session.role == 5 || req.session.role == 6
-                            || req.session.role == 7 || req.session.role == 8){
-                            res.render('daftarProkerKordiv',{
-                                results
-                            })
-                        }
-                        else{
-                            res.redirect('/daftarProker')
-                        }
-                    }
-                    else{
-                        req.flash('message','anda harus login terlebih dahulu')
-                        res.redirect('/');
-                    }
-                 }
-                else if(req.session.loggedin){
-                    if(req.session.role == 3 || req.session.role == 4 || req.session.role == 5 || req.session.role == 6
-                        || req.session.role == 7 || req.session.role == 8){
-                        res.render('daftarProkerKordiv',{
-                            results
-                        })
-                    }
-                    else{
-                        res.redirect('/daftarProker')
-                    }
-                }else{
-                    req.flash('message', 'Anda harus login terlebih dahulu');
-                    res.redirect('/')
-                }
-                conn.release();
-                console.log(results)
-                });
-
-                route.get('/daftarProkerSekben',express.urlencoded(), async(req,res) => {
-                    const conn = await dbConnect();
-                    let results = await getProker(conn);
-                    const idTopik = req.body.aTopik
-                    const getName = req.query.filter;
-                    const nama = req.session.name;
-                    if(getName != undefined && getName.length){
-                        results = await getTopikFilter(conn,getName);
-                        if(req.session.loggedin){
-                            if(req.session.role == 2){
-                                res.render('daftarProkerSekben',{
-                                    results,comments, nama, idTopik, namaKomen
-                                })
-                            }
-                            else{
-                                res.redirect('/daftarProker')
-                            }
-                        }
-                        else{
-                            req.flash('message','anda harus login terlebih dahulu')
-                            res.redirect('/');
-                        }
-                     }
-                    else if(req.session.loggedin){
-                        if(req.session.role == 2){
-                            res.render('daftarProkerSekben',{
-                                results
-                            })
-                        }
-                        else{
-                            res.redirect('/daftarProker')
-                        }
-                    }else{
-                        req.flash('message', 'Anda harus login terlebih dahulu');
-                        res.redirect('/')
-                    }
-                    conn.release();
-                    console.log(results)
-                    });
-            
-                    route.get('/daftarProkerAdmin',express.urlencoded(), async(req,res) => {
-                        const conn = await dbConnect();
-                        let results = await getProker(conn);
-                        const idTopik = req.body.aTopik
-                        const getName = req.query.filter;
-                        const nama = req.session.name;
-                        if(getName != undefined && getName.length){
-                            results = await getTopikFilter(conn,getName);
-                            if(req.session.loggedin){
-                                if(req.session.role == 1){
-                                    res.render('daftarProkerAdmin',{
-                                        results,comments, nama, idTopik, namaKomen
-                                    })
-                                }
-                                else{
-                                    res.redirect('/daftarProker')
-                                }
-                            }
-                            else{
-                                req.flash('message','anda harus login terlebih dahulu')
-                                res.redirect('/');
-                            }
-                         }
-                        else if(req.session.loggedin){
-                            if(req.session.role == 1){
-                                res.render('daftarProkerAdmin',{
-                                    results
-                                })
-                            }
-                            else{
-                                res.redirect('/daftarProker')
-                            }
-                        }else{
-                            req.flash('message', 'Anda harus login terlebih dahulu');
-                            res.redirect('/')
-                        }
-                        conn.release();
-                        console.log(results)
-                        });
-            
-                        route.get('/addProker',express.urlencoded(), async(req,res) => {
-                            const conn = await dbConnect();
-                            const message = req.flash('message')
-                            conn.release();
-                            if(req.session.loggedin){
-                                res.render('addProker', { message
-                                });
-                            }
-                             else {
-                                res.redirect('/')
-                            }
-                        });
-
-                        route.post('/addProker',express.urlencoded(), async(req,res) => {
-                             //Buat dapetin noDosen
-                            const namaP = req.body.addProker;
-                            const isiP= req.body.addIsi;
-                            const idDiv = req.session.role;
-                            const conn = await dbConnect();
-                            let results = await getProker(conn)
-                            var maxID = await getMax(conn); //Buat dapetin IdTopik terbesar di DB
-                            var idx = maxID[0].max+1;
-                        
-                            if(req.session.loggedin){
-                                res.redirect('/daftarProkerKordiv')
-                            }
-                            else{
-                                req.flash('message', 'Anda harus login terlebih dahulu');
-                                res.redirect('/')
-                            }
-                            if(namaP.length > 0 && isiP.length > 0 ){
-                                await tambahProker(conn,idx, namaP, isiP, idDiv);
-                            }
-                        });
-        
-                route.get('/daftarProkerAdmin',express.urlencoded(), async(req,res) => {
-                    const conn = await dbConnect();
-                    let results = await getProker(conn);
-                    const idTopik = req.body.aTopik
-                    const getName = req.query.filter;
-                    const nama = req.session.name;
-                    if(getName != undefined && getName.length){
-                        results = await getTopikFilter(conn,getName);
-                        if(req.session.loggedin){
-                            if(req.session.role == 1){
-                                res.render('daftarProkerAdmin',{
-                                    results,comments, nama, idTopik, namaKomen
-                                })
-                            }
-                            else{
-                                res.redirect('/daftarProker')
-                            }
-                        }
-                        else{
-                            req.flash('message','anda harus login terlebih dahulu')
-                            res.redirect('/');
-                        }
-                     }
-                    else if(req.session.loggedin){
-                        if(req.session.role == 1){
-                            res.render('daftarProkerAdmin',{
-                                results
-                            })
-                        }
-                        else{
-                            res.redirect('/daftarProker')
-                        }
-                    }else{
-                        req.flash('message', 'Anda harus login terlebih dahulu');
-                        res.redirect('/')
-                    }
-                    conn.release();
-                    console.log(results)
-                    });
-        
-
-            
     route.get('/daftarRAB',express.urlencoded(), async(req,res) => {
         const conn = await dbConnect();
         let results = await getProker(conn);
