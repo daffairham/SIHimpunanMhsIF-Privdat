@@ -753,7 +753,7 @@ route.get('/daftarProker',express.urlencoded(), async(req,res) => {
         if(getName != undefined && getName.length){
             results = await getTopikFilter(conn,getName);
             if(req.session.loggedin){
-                if(req.session.role == "Dosen"){
+                if(req.session.role == 1){
                     res.render('daftarRAB',{
                         results,comments, nama, idTopik, namaKomen
                     })
@@ -776,7 +776,7 @@ route.get('/daftarProker',express.urlencoded(), async(req,res) => {
                 })
             }
             else{
-                res.redirect('/daftarProkerAdmin')
+                res.redirect('/daftarRAB')
             }
         }else{
             req.flash('message', 'Anda harus login terlebih dahulu');
