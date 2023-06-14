@@ -27,6 +27,19 @@ const getProker = conn => {
     });
 };
 
+//Buat nampilin daftar2 proker yang udah terdaftar (Staff)
+const getProkerTerdaftar = (conn, npm) => {
+    return new Promise((resolve, reject) => {
+        conn.query(`SELECT * FROM proker JOIN anggota_proker ON proker.idProker = anggota_proker.idProker WHERE idAnggota = ${npm}`, (err, result)=> {
+            if(err){
+                reject(err);
+            }else{
+                resolve(result);
+            }
+        });
+    });
+};
+
 const getProkerIdAdmin = (conn, id)=> {
     return new Promise((resolve, reject) => {
         conn.query(`SELECT namaProker, statusProkKetua, isiProker FROM proker WHERE idProker = ${id}`, (err, result)=> {
@@ -423,12 +436,12 @@ route.get('/home', async(req,res) => {
 // Get buat search filter DaftarTopikDosen
 route.get('/daftarProker',express.urlencoded(), async(req,res) => {
     const conn = await dbConnect();
-    let results = await getProker(conn);
+    const npm = req.session.username;
+    let results = await getProkerTerdaftar(conn, npm);
     const idTopik = req.body.aTopik
     const getName = req.query.filter;
     const nama = req.session.name;
     if(getName != undefined && getName.length){
-        results = await getTopikFilter(conn,getName);
         if(req.session.loggedin){
             if(req.session.role == 1){
                 res.render('daftarProker',{
@@ -466,6 +479,7 @@ route.get('/daftarProker',express.urlencoded(), async(req,res) => {
         res.redirect('/')
     }
     conn.release();
+    console.log(req.session)
     });
 
     //daftar proker sekben
@@ -1325,6 +1339,8 @@ route.post('/',express.urlencoded(), async(req,res) => {
             res.redirect('/')
         }
         res.end();
+        console.log(req.session)
+
     })
     
 })
