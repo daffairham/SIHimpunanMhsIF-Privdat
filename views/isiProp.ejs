@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/daftarProkerAdmin.css">
+    <link rel="stylesheet" href="/assets/isiProp.css">
+
+    <% for (const row of results){ %>
+        <title><%= row.namaProker  %></title>
+        <% } %>
+    </head>
+    <body>
+        <header><%- include('./layout/headerAdmin.ejs') %></header>
+        <% for (const row of results){ %>
+            <h1><%= row.namaProp  %></h1>
+            <% } %>
+        
+        <div class="container_prop">
+            <bre>
+                <% for (const row of results){ %>           
+                    <embed src="data:application/pdf;base64,<%= row.isiProp.toString('base64') %>" width="100%" height="600px" type="application/pdf">
+
+                <% } %>
+            </bre>
+        </div>
+    </body>
+
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="assets/daftarProker.css">
+        <link rel="stylesheet" href="../public/assets/header.css">
+
+        <title>Daftar Program Kerja</title>
+    </head>
+
+    <body>
+        <header>
+            <%- include('./layout/header.ejs') %>
+        </header>
+        <h2>Daftar Program Kerja</h2>
+        <div class="container">
+            <table id="proker">
+                <tr>
+                    <th class="nama_proker">Nama Proker</th>
+                    <th class="status_proker">Status Proker Kahim</th>
+                    <th class="status_proker">Status Proker Sekben</th>
+                    <th class="status_proker">Status Proposal Kahim</th>
+                    <th class="status_proker">Status Proposal Sekben</th>
+                    <th class="status_proker">Status RAB Ketua</th>
+                    <th class="status_proker">Status RAB Sekben</th>
+                    
+                    <th class="view">Proposal</th>
+                    <th class="view">RAB</th>
+                </tr>
+                <% for (const row of results){ %>
+                <tr>
+                    <td class="nama_proker">
+                        <form action="/isiProker" method="post">
+                            <b><%= row.namaProker %></b>
+                            <input type="hidden" name ="id" value="<%= row.idProker %>">
+                            <br>
+                            <input type="submit" class="show_details" value="Click to Show Details">
+                            </form>
+                    </td>
+                    <td class="status_proker"><%= row.statusProkKetua %></td>
+                    <td class="status_proker"><%= row.statusProkSekben %></td>
+                    <td class="status_proker"><%= row.statusPropKetua %></td>
+                    <td class="status_proker"><%= row.statusPropSekben %></td>
+                    <td class="status_proker"><%= row.statusRABKetua %></td>
+                    <td class="status_proker"><%= row.statusRABSekben %></td>
+
+
+                    <td class="view"><a href="#isiProposal">Lihat Isi</td>
+                    <td class="view"><a href="#isiRAB">Lihat Isi</td>
+                    <td class="view add_anggota"><a href="#addUser">Add Anggota</a></td>
+                </tr>
+                <% } %>
+                
+            </table>
+        </div>
+        <div id="container_add">
+            <a href="http://localhost:8080/addProker"><button class="button add">Add Program Kerja</button></a>
+        </div>
+    </body>
+</html>
