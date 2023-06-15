@@ -703,7 +703,7 @@ route.get('/daftarProker',express.urlencoded(), async(req,res) => {
                             }
                         });
         
-                route.get('/daftarProkerAdmin',express.urlencoded(), async(req,res) => {
+                route.get('/daftarRAB',express.urlencoded(), async(req,res) => {
                     const conn = await dbConnect();
                     let results = await getProker(conn);
                     const idTopik = req.body.aTopik
@@ -713,12 +713,12 @@ route.get('/daftarProker',express.urlencoded(), async(req,res) => {
                         results = await getTopikFilter(conn,getName);
                         if(req.session.loggedin){
                             if(req.session.role == 1){
-                                res.render('daftarProkerAdmin',{
+                                res.render('daftarRAB',{
                                     results,comments, nama, idTopik, namaKomen
                                 })
                             }
                             else{
-                                res.redirect('/daftarProker')
+                                res.redirect('/daftarRAB')
                             }
                         }
                         else{
@@ -728,12 +728,12 @@ route.get('/daftarProker',express.urlencoded(), async(req,res) => {
                      }
                     else if(req.session.loggedin){
                         if(req.session.role == 1){
-                            res.render('daftarProkerAdmin',{
+                            res.render('daftarRAB',{
                                 results
                             })
                         }
                         else{
-                            res.redirect('/daftarProker')
+                            res.redirect('/daftarRAB')
                         }
                     }else{
                         req.flash('message', 'Anda harus login terlebih dahulu');
