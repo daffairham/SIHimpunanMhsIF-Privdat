@@ -733,7 +733,7 @@ route.get('/daftarProker',express.urlencoded(), async(req,res) => {
                             })
                         }
                         else{
-                            res.redirect('/daftarRAB')
+                            res.redirect('/daftarRAB    ')
                         }
                     }else{
                         req.flash('message', 'Anda harus login terlebih dahulu');
