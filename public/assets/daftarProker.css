@@ -82,3 +82,9 @@ td a:hover{
     padding: 2%;
     margin: auto;
 }
+.tambahanggota{
+    background-color: aliceblue;
+    border-radius: 15px;
+    padding: 10%;
+    display: block;
+}

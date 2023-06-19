@@ -27,6 +27,18 @@ const getProker = conn => {
     });
 };
 
+const getStaffs= conn => {
+    return new Promise((resolve, reject) => {
+        conn.query('SELECT * FROM users WHERE NOT idRole = 1 AND NOT idRole = 2 ', (err, result)=> {
+            if(err){
+                reject(err);
+            }else{
+                resolve(result);
+            }
+        });
+    });
+};
+
 //Buat nampilin daftar2 proker yang udah terdaftar (Staff)
 const getProkerTerdaftar = (conn, npm) => {
     return new Promise((resolve, reject) => {
@@ -71,7 +83,13 @@ const getStaffProker = (conn, id)=> {
         users.NPM = anggota_proker.IdAnggota
         inner join proker ON
         anggota_proker.IdProker = proker.idProker
-        where proker.idProker = ${id}`, (err, result)=> {
+        where proker.idProker = ${id}
+        ORDER BY
+        CASE anggota_proker.peran
+        WHEN 'ketua pelaksana' THEN 1
+        WHEN 'sekretaris/bendahara' THEN 2
+        WHEN 'staff' THEN 3
+        END;`, (err, result)=> {
             if(err){
                 reject(err);
             }else{
@@ -301,6 +319,18 @@ const addAkun = (conn,npm, nama,password,roles) => {
         })
     })
 }
+const addStaff = (conn,id,npm,roles) => {
+    return new Promise((resolve,reject) => {
+        conn.query(`INSERT INTO anggota_proker(idProker,idAnggota,peran) VALUES ('${id}','${npm}','${roles}')`,(err,result) => {
+            if(err){
+                reject(err)
+            }
+            else{
+                resolve(result);
+            }
+        })
+    })
+}
 
 //query untuk mendapatkan data-data user dosen yang terdaftar
 const getUsersPage = conn => {
@@ -357,6 +387,19 @@ const getMaxRev = conn => {
 const tambahProker = (conn,idx, namaP, isiP, idDiv) => {
     return new Promise((resolve,reject) => {
         conn.query(`INSERT INTO proker (idProker, namaProker, isiProker, statusProkKetua, statusProkSekben, idDivisi, isiKomenKetua, isiKomenSekben) VALUES (${idx},'${namaP}', '${isiP}',"PENDING", "PENDING", '${idDiv}', 0, 0) `,(err,result) => {
+            if(err){
+                reject(err);
+            }
+            else{
+                resolve(result);
+            }
+        })
+    })
+}
+
+const tambahKetuplak = (conn, npm, id) => {
+    return new Promise((resolve,reject) => {
+        conn.query(`INSERT INTO anggota_proker (idProker, idAnggota, peran) VALUES (${npm},'${id}', 'Ketua Pelaksana') `,(err,result) => {
             if(err){
                 reject(err);
             }
@@ -704,7 +747,7 @@ route.get('/daftarProker',express.urlencoded(), async(req,res) => {
                             let results = await getProker(conn)
                             var maxID = await getMax(conn); //Buat dapetin IdTopik terbesar di DB
                             var idx = maxID[0].max+1;
-                        
+                            const npm = req.session.username;
                             if(req.session.loggedin){
                                 res.redirect('/daftarProkerKordiv')
                             }
@@ -714,6 +757,7 @@ route.get('/daftarProker',express.urlencoded(), async(req,res) => {
                             }
                             if(namaP.length > 0 && isiP.length > 0 ){
                                 await tambahProker(conn,idx, namaP, isiP, idDiv);
+                                await tambahKetuplak(conn, npm, idx);
                             }
                         });
         
@@ -1386,7 +1430,7 @@ const getCurrentProposal = (conn, id) => {
 
 const getCurrentRab = (conn, id) => {
     return new Promise((resolve,reject) => {
-        conn.query('SELECT * FROM rab WHERE idProker = ?', [id], (err, result) => {
+        conn.query('SELECT * FROM rab WHERE idProk = ?', [id], (err, result) => {
             if(err){
                 reject(err);
             }else{
@@ -1605,4 +1649,55 @@ route.get('/isiProker/:id',express.urlencoded(), async(req,res) => {
         res.redirect('/')
     }
     conn.release();
+});
+
+route.post('/addStaff/',express.urlencoded(),async(req,res) => {
+    const conn = await dbConnect();
+    const idRole = req.session.role;
+    const npm = req.body.addNama;
+    const id = req.body.id;
+    const roles = req.body.Roles;
+    if(req.session.loggedin){
+        if(idRole == 3 || idRole == 4 || idRole == 5 || idRole == 6
+            || idRole == 7 || idRole== 8){
+        
+            if(idRole == 3 || idRole == 4 || idRole == 5 || idRole == 6
+                || idRole == 7 || idRole== 8){
+                await addStaff(conn,id,npm,roles)
+                res.redirect('/daftarProkerKordiv')
+            }
+            else{
+                res.send('error')
+            }
+        conn.release();
+        }else{
+            res.send('Anda tidak memilki akses')
+        }
+    }
+    else{
+        req.flash('message','anda harus login terlebih dahulu')
+        res.redirect('/');
+    }
+})
+
+route.get('/addStaff/:id',express.urlencoded(), async(req,res) => {
+    const conn = await dbConnect();
+    const id = req.params.id
+    let results = await getProker(conn, id);
+    let staffs = await getStaffs(conn, id)
+    var idRole = req.session.role;
+    if(req.session.loggedin){
+        if(idRole == 3 || idRole == 4 || idRole == 5 || idRole == 6
+            || idRole == 7 || idRole== 8){
+            res.render('tambahstaff', { id, results, staffs });
+        }
+        else{
+            res.send('Anda tidak memiliki akses')
+        }
+    } else {
+        req.flash('message', 'Anda harus login terlebih dahulu');
+        res.redirect('/')
+    }
+    conn.release();
+    console.log(id)
 });
