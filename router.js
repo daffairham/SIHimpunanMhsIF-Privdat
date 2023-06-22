@@ -15,9 +15,23 @@ var route = express.Router();
 
 // query
 
-const getProker = conn => {
+const getProker = (conn) => {
     return new Promise((resolve, reject) => {
-        conn.query('SELECT * FROM proker', (err, result)=> {
+        conn.query(`SELECT * FROM proker inner join proposal ON proposal.idProker = proker.idProker
+        inner join rab ON  proker.idProker= rab.idProker`, (err, result)=> {
+            if(err){
+                reject(err);
+            }else{
+                resolve(result);
+            }
+        });
+    });
+};
+
+const getProkerTerdaftar = (conn, npm) => {
+    return new Promise((resolve, reject) => {
+        conn.query(SELECT * FROM proker inner join proposal ON proposal.idProker = proker.idProker
+        inner join rab ON  proker.idProker= rab.idProker JOIN anggota_proker ON proker.idProker = anggota_proker.idProker WHERE idAnggota = ${npm}, (err, result)=> {
             if(err){
                 reject(err);
             }else{
@@ -421,14 +435,15 @@ route.get('/home', async(req,res) => {
 
 
 // Get buat search filter DaftarTopikDosen
-route.get('/daftarProker',express.urlencoded(), async(req,res) => {
+route.get('/daftarProker/',express.urlencoded(), async(req,res) => {
     const conn = await dbConnect();
     let results = await getProker(conn);
+    const id = req.body.id;
     const idTopik = req.body.aTopik
     const getName = req.query.filter;
     const nama = req.session.name;
     if(getName != undefined && getName.length){
-        results = await getTopikFilter(conn,getName);
+        results = await getProker(conn,getName);
         if(req.session.loggedin){
             if(req.session.role == 1){
                 res.render('daftarProker',{
