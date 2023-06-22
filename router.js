@@ -42,7 +42,8 @@ const getStaffs= conn => {
 //Buat nampilin daftar2 proker yang udah terdaftar (Staff)
 const getProkerTerdaftar = (conn, npm) => {
     return new Promise((resolve, reject) => {
-        conn.query(`SELECT * FROM proker JOIN anggota_proker ON proker.idProker = anggota_proker.idProker WHERE idAnggota = ${npm}`, (err, result)=> {
+        conn.query(`SELECT * FROM proker inner join proposal ON proposal.idProker = proker.idProker
+        inner join rab ON  proker.idProker= rab.idProker JOIN anggota_proker ON proker.idProker = anggota_proker.idProker WHERE idAnggota = ${npm}`, (err, result)=> {
             if(err){
                 reject(err);
             }else{
@@ -136,6 +137,17 @@ const getTopikFilter = (conn,getName) => {
     });
 };
 
+const cekAkses = (conn,idUser) => {
+    return new Promise((resolve, reject) => {
+        conn.query(`SELECT * FROM anggota_proker WHERE idAnggota = '%${idUser}%' ` , (err, result)=> {
+            if(err){
+                reject(err);
+            }else{
+                resolve(result);
+            }
+        });
+    });
+};
 const getKomen = (conn, idTopik) => {
     return new Promise((resolve, reject) => {
         conn.query(`SELECT dosen.namaD AS namadosen, review.komentar AS komendosen, review.idTopik FROM review JOIN topik ON review.idTopik = topik.idTopik JOIN dosen ON topik.noDosen = dosen.noDosen WHERE review.idTopik ='${idTopik}'`, (err, result)=> {
@@ -1445,12 +1457,11 @@ route.post('/isiProp', express.urlencoded(), async (req, res) => {
     const conn = await dbConnect();
     conn.release();
     const id = req.body.id;
-    var nama = req.session.name;
-    var noID = req.session.noID;
     var idRole = req.session.role;
-    var namaRole = req.session.namaRole;
+    
+    const idUser = req.session.username;
     if(req.session.loggedin){
-        if(idRole==1){
+        if(idRole>=1){
             res.redirect(`/isiProp/${id}`);
         }
         else{
@@ -1466,14 +1477,13 @@ route.get('/isiProp/:id', express.urlencoded(), async (req, res) => {
     const conn = await dbConnect();
     const id = req.params.id;
     let results = await getCurrentProposal(conn, id); // Remove the 'id' parameter here
-    conn.release();
-    var nama = req.session.name;
-    var noID = req.session.noID;
     var idRole = req.session.role;
-    var namaRole = req.session.namaRole;
+    const access = true;
+    const idUser = req.session.username;
+    let akses = await cekAkses(conn, idUser);
     if(req.session.loggedin){
-        if(idRole== 1 || idRole == 2){
-            res.render('isiProp', {id, results});
+        if(idRole>= 1 || idRole == 2){
+            res.render('isiProp', {id, results, idUser, akses});
         }
         else{
             res.send('Anda tidak memiliki akses')
@@ -1482,17 +1492,18 @@ route.get('/isiProp/:id', express.urlencoded(), async (req, res) => {
         req.flash('message', 'Anda harus login terlebih dahulu');
         res.redirect('/')
     }
+    console.log(idUser);
+    console.log(akses + "uy")
+    conn.release();
 });
+
 
 // Halaman isiRAB
 route.post('/isiRab', express.urlencoded(), async (req, res) => {
     const conn = await dbConnect();
     conn.release();
     const id = req.body.id;
-    var nama = req.session.name;
-    var noID = req.session.noID;
     var idRole = req.session.role;
-    var namaRole = req.session.namaRole;
     if(req.session.loggedin){
         if(idRole==1){
             res.redirect(`/isiRAB/${id}`);
@@ -1512,10 +1523,7 @@ route.get('/isiRab/:id', express.urlencoded(), async (req, res) => {
     const id = req.params.id; // Declare and assign the id variable here
     let results = await getCurrentRab(conn, id);
     conn.release();
-    var nama = req.session.name;
-    var noID = req.session.noID;
     var idRole = req.session.role;
-    var namaRole = req.session.namaRole;
     if (req.session.loggedin) {
         if (idRole == 1) {
             res.render('isiRAB', { id, results });
@@ -1534,10 +1542,7 @@ route.post('/isiProkerAdmin',express.urlencoded(), async(req,res) => {
     const conn = await dbConnect();
     conn.release();
     const id = req.body.id;
-    var nama = req.session.name;
-    var noID = req.session.noID;
     var idRole = req.session.role;
-    var namaRole = req.session.namaRole;
     if(req.session.loggedin){
         if(idRole==1){
             res.redirect(`/isiProkerAdmin/${id}`);
