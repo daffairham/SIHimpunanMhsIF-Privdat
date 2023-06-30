@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/kelolaAkunLanjutan.css">
+    <title>Add User</title>
+</head>
+<body>
+    <body>
+        <header>
+            <%- include('./layout/header.ejs') %>
+        </header>
+    
+        <div class="kelolaAkunContainer">
+            <div class="kelolaAkunTop">
+                <a href="http://localhost:8080/daftarUser">
+                    <img src="/assets/images/leftArrow.png" alt="">
+                </a>
+                <h1>Tambah Anggota</h1>
+            </div>
+    
+            <br>
+    
+            <div class="kelolaAkunMains">
+                    <div class="innerMain">
+                            <div class="innerMain1">
+                                <form action="/addStaff/" method="post">
+                                    <fieldset>
+                                        
+                                        <h3>Lengkapi Informasi Akun yang Ingin Ditambahkan</h3>
+                                        <label for=""> Pilih Staff</label>
+                                        <select name="addNama" id="">
+                                            <% for (const row of staffs) { %>
+                                            <option value=<%= row.NPM %>><%= row.nama %></option>
+                                            <% } %>
+                                        </select>
+                                        
+                                        <label for=""> Jabatan</label>
+                                        <select name="Roles" id="">
+                                            <option value="Sekretaris / Bendahara">Sekretaris / Bendahara</option>
+                                            <option value="Staff">Staff</option>
+                                        </select>
+                                        <% for (const row of results) { %>
+                                        <input type="hidden" name ="id" value="<%= row.idProker %>">
+                                        <% } %>
+                                        <input type="submit" id="gantiNama" value="Tambah User">
+                                    </fieldset>
+                                </form>
+                            </div>
+                            
+                    </div>
+            </div>
+        
+    
+        </div>
+    
+        
+    </body>
+</body>
+</html>

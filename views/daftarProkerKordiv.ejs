@@ -34,7 +34,7 @@
                     <td class="nama_proker">
                         <form action="/isiProker" method="post">
                             <b><%= row.namaProker %></b>
-                            <input type="hidden" name ="id" value="<%= row.idProker %>">
+                            <input type="hidden" name="id" value="<%= row.idProker %>">
                             <br>
                             <input type="submit" class="show_details" value="Click to Show Details">
                             </form>
@@ -47,9 +47,24 @@
                     <td class="status_proker"><%= row.statusRABSekben %></td>
 
 
-                    <td class="view"><a href="#isiProposal">Lihat Isi</td>
-                    <td class="view"><a href="#isiRAB">Lihat Isi</td>
-                    <td class="view add_anggota"><a href="#addUser">Add Anggota</a></td>
+
+                    <td class="nama_prop">
+                        <form action="/isiProp" method="post">
+                            <input type="hidden" name="id" value="<%= row.idProker %>">
+                            <br>
+                            <input type="submit" class="show_details" value="Lihat Isi">
+                        </form>
+                        
+                    </td>
+                    <td class="nama_rab">
+                        <form action="/isiRab" method="post">
+                            <input type="hidden" name="id" value="<%= row.idProker %>">
+                            <br>
+                            <input type="submit" class="show_details" value="Lihat Isi">
+                        </form>
+                        
+                    </td>
+                    <td class="view add_anggota"><a href="/addStaff/<%= row.idProker %>">Add Anggota</a></td>
                 </tr>
                 <% } %>
                 
