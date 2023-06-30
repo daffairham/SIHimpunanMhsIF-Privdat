@@ -1,39 +1,44 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="assets/daftarProker.css">
-        <link rel="stylesheet" href="../public/assets/header.css">
 
-        <title>Daftar Program Kerja</title>
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/daftarProker.css">
+    <link rel="stylesheet" href="../public/assets/header.css">
 
-    <body>
-        <header>
-            <%- include('./layout/header.ejs') %>
-        </header>
-        <h2>Daftar Program Kerja</h2>
-        <div class="container">
-            <table id="proker">
-                <tr>
-                    <th class="nama_proker">Nama Proker</th>
-                    
-                    <th class="view">Proposal</th>
-                    <th class="view">RAB</th>
-                </tr>
-                <% for (const row of results){ %>
+    <title>Daftar Program Kerja</title>
+</head>
+
+<body>
+    <header>
+        <%- include('./layout/header.ejs') %>
+    </header>
+    <h2>Daftar Program Kerja</h2>
+    <div class="container">
+        <table id="proker">
+            
+            <tr>
+                <th class="nama_proker">Nama Proker</th>
+
+                <th class="view">Proposal</th>
+                <th class="view">RAB</th>
+            </tr>
+            
+
+            <% for (const row of results){ %>
                 <tr>
                     <td class="nama_proker">
                         <form action="/isiProker" method="post">
-                            <b><%= row.namaProker %></b>
-                            <input type="hidden" name ="id" value="<%= row.idProker %>">
+                            <b>
+                                <%= row.namaProker %>
+                            </b>
+                            <input type="hidden" name="id" value="<%= row.idProker %>">
                             <br>
                             <input type="submit" class="show_details" value="Click to Show Details">
-                            </form>
+                        </form>
                     </td>
-
 
                     <td class="nama_prop">
                         <form action="/isiProp" method="post">
@@ -41,20 +46,35 @@
                             <br>
                             <input type="submit" class="show_details" value="Lihat Isi">
                         </form>
-                        
+                        <form action="/uploadProp" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="id" value="<%= row.idProker %>">
+                            <br>
+                            <input type="file" name="fileUpload" accept=".pdf">
+                            <input type="text" name="namaProp" placeholder="Masukkan Nama proposal">
+                            <br>
+                            <input type="submit" value="Upload">
+                        </form>
                     </td>
+
                     <td class="nama_rab">
                         <form action="/isiRab" method="post">
                             <input type="hidden" name="id" value="<%= row.idProker %>">
                             <br>
                             <input type="submit" class="show_details" value="Lihat Isi">
                         </form>
-                        
+                        <form action="/uploadRab" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="id" value="<%= row.idProker %>">
+                            <br>
+                            <input type="file" name="fileUpload" accept=".pdf">
+                            <input type="text" name="namaRab" placeholder="Masukkan Nama RAB">
+                            <br>
+                            <input type="submit" value="Upload">
+                        </form>
                     </td>
                 </tr>
                 <% } %>
-                
-            </table>
-        </div>
-    </body>
+        </table>
+    </div>
+</body>
+
 </html>
