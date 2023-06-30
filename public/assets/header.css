@@ -4,7 +4,7 @@ body{
 /* CSS Content */
 header{
     margin: 0;
-    background-color: black;
+    /* background-color: black; */
     opacity: 1;
     size: 100%;
 }
@@ -39,12 +39,7 @@ header{
 .aheader{
     color: lightgray;
 }
-button{
-    color: white;
-    background-color: blue;
-    border: none;
-    padding: 0.5rem 0.75rem 0.5rem 0.75rem;
-}
+
 .containerMiddle{
     margin-left: 5rem;
 }
