@@ -1664,7 +1664,7 @@ route.get("/isiProp/:id", express.urlencoded(), async (req, res) => {
 route.post('/uploadRab', upload.single('fileUpload'), express.urlencoded(), async (req, res) => {
     const conn = await dbConnect();
     const idProker = req.body.id;
-    const namaRab = req.body.namaProp;
+    const namaRab = req.body.namaRab;
     const fileUpload = req.file;
     const fileData = {
       idRab: idProker,
@@ -1672,7 +1672,7 @@ route.post('/uploadRab', upload.single('fileUpload'), express.urlencoded(), asyn
       isiRab: fileUpload.name,
       idProker: idProker,
     };
-    conn.query(`UPDATE rab SET isiProp = '${fileUpload.name}', namaProp = '${namaRab}' WHERE idProker = '${idProker}'`, fileData, (error, results) => {
+    conn.query(`UPDATE rab SET isiRab = '${fileUpload.name}', namaRab = '${namaRab}' WHERE idProker = '${idProker}'`, fileData, (error, results) => {
       if (error) {
         console.error(error);
       }
