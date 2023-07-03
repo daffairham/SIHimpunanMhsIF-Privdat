@@ -73,8 +73,16 @@
                             <input type="submit" name="updateStat" class="gantiStat" onclick="redirect" value="Ganti Status">
                         </form>
                     </td>
-                    <td class="view"><a href="/isiProposal">Lihat Isi</td>
-                    <td class="view"><a href="/isiRAB">Lihat Isi</td>
+                    <td class="view"><form action="/isiProp" method="post">
+                        <input type="hidden" name="id" value="<%= row.idProker %>">
+                        <br>
+                        <input type="submit" class="show_details" value="Lihat Isi">
+                      </form></td>
+                    <td class="view"><form action="/isiRab" method="post">
+                        <input type="hidden" name="id" value="<%= row.idProker %>">
+                        <br>
+                        <input type="submit" class="show_details" value="Lihat Isi">
+                    </form></td>
                 </tr>
                 <% } %>
 

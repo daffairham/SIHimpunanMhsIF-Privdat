@@ -1685,7 +1685,7 @@ route.get("/isiProp/:id", express.urlencoded(), async (req, res) => {
         bool = true;
       }
     }
-    if (bool === true) {
+    if (bool === true || idRole == 1 || idRole == 2) {
       res.render("isiProp", { id, results, idUser, akses });
     } else {
       res.send("Anda tidak memiliki akses");
@@ -1752,7 +1752,7 @@ route.get("/isiRab/:id", express.urlencoded(), async (req, res) => {
         bool = true;
       }
     }
-    if (bool === true) {
+    if (bool === true || idRole == 1 || idRole == 2) {
       res.render("isiRab", { id, results, idUser, akses });
     } else {
       res.send("Anda tidak memiliki akses");
