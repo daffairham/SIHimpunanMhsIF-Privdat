@@ -42,10 +42,8 @@
                         <form action="/daftarTopik" method="POST">
                             <select name="gantiStat">
                                 <option selected value><%= row.statusProkSekben %> </option>
-                                <option value="DITERIMA" name="DITERIMA">DITERIMA</option>
-                                <option value="REVISI" name="REVISI">REVISI</option>
+                                <option value="ACCEPTED" name="ACCEPTED">ACCEPTED</option>
                                 <option value="PENDING" name="PENDING">PENDING</option>
-                                <option value="PENDING" name="PENDING">ACC SEKBEN</option>       
                             </select>
                             <input type="hidden" name ="noTopik" value="<%= row.idProker %>">
                             <input type="submit" name="updateStat" class="gantiStat" onclick="redirect" value="Ganti Status">
@@ -55,10 +53,9 @@
                         <form action="/daftarTopik" method="POST">
                             <select name="gantiStat">
                                 <option selected value><%= row.statusPropSekben %> </option>
-                                <option value="DITERIMA" name="DITERIMA">DITERIMA</option>
+                                <option value="ACCEPTED" name="ACCEPTED">ACCEPTED</option>
                                 <option value="REVISI" name="REVISI">REVISI</option>
                                 <option value="PENDING" name="PENDING">PENDING</option>
-                                <option value="PENDING" name="PENDING">ACC SEKBEN</option>       
                             </select>
                             <input type="hidden" name ="noTopik" value="<%= row.idProker %>">
                             <input type="submit" name="updateStat" class="gantiStat" onclick="redirect" value="Ganti Status">
@@ -68,10 +65,9 @@
                         <form action="/daftarTopik" method="POST">
                             <select name="gantiStat">
                                 <option selected value><%= row.statusRABSekben %> </option>
-                                <option value="DITERIMA" name="DITERIMA">DITERIMA</option>
+                                <option value="ACCEPTED" name="ACCEPTED">ACCEPTED</option>
                                 <option value="REVISI" name="REVISI">REVISI</option>
                                 <option value="PENDING" name="PENDING">PENDING</option>
-                                <option value="PENDING" name="PENDING">ACC SEKBEN</option>       
                             </select>
                             <input type="hidden" name ="noTopik" value="<%= row.idProker %>">
                             <input type="submit" name="updateStat" class="gantiStat" onclick="redirect" value="Ganti Status">
