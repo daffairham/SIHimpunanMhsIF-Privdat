@@ -46,7 +46,7 @@ const getStaffs = (conn) => {
 const getProkerTerdaftar = (conn, npm) => {
   return new Promise((resolve, reject) => {
     conn.query(
-      `select proker.idProker, proker.namaProker, proker.statusProkKetua, proker.statusProkSekben, proposal.isiProp, rab.isiRab from proker LEFT outer join proposal on proker.idProker = proposal.idProker join anggota_proker on anggota_proker.idProker = proker.IdProker left outer join rab on proker.idProker = rab.idProker where anggota_proker.IdAnggota = ${npm}`,
+      `select proker.idProker, proker.namaProker, proker.statusProkKetua, proker.statusProkSekben, proposal.statusPropKetua, proposal.statusPropSekben, proposal.isiProp, rab.isiRab, rab.statusRabKetua, rab.statusRabSekben from proker LEFT outer join proposal on proker.idProker = proposal.idProker join anggota_proker on anggota_proker.idProker = proker.IdProker left outer join rab on proker.idProker = rab.idProker where anggota_proker.IdAnggota = 19012 and (proker.statusProkKetua = 'ACCEPTED' or proker.statusProkSekben='ACCEPTED' or proker.statusProkKetua = 'PENDING' or proker.statusProkSekben='PENDING' or proposal.statusPropKetua = 'ACCEPTED' or proposal.statusPropKetua = 'REVISI' or rab.statusRabKetua = 'ACCEPTED' or rab.statusRabKetua = 'REVISI');`,
       (err, result) => {
         if (err) {
           reject(err);
@@ -473,10 +473,40 @@ const tambahProker = (conn, idx, namaP, isiP, idDiv) => {
   });
 };
 
+const tambahProkerProp = (conn, idx, namaP) => {
+  return new Promise((resolve, reject) => {
+    conn.query(
+      `INSERT INTO proposal (namaProp, statusPropKetua, statusPropSekben, isiProp, idProker) VALUES ('${namaP}', "PENDING", "PENDING", NULL, '${idx}') `,
+      (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      }
+    );
+  });
+};
+const tambahProkerRab = (conn, idx, namaP) => {
+  return new Promise((resolve, reject) => {
+    conn.query(
+      `INSERT INTO rab (namaRab, isiRab, statusRabKetua, statusRabSekben, idProker) VALUES ('${namaP}', NULL, "PENDING", "PENDING",  '${idx}') `,
+      (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      }
+    );
+  });
+};
+
+
 const tambahKetuplak = (conn, npm, id) => {
   return new Promise((resolve, reject) => {
     conn.query(
-      `INSERT INTO anggota_proker (idProker, idAnggota, peran) VALUES (${npm},'${id}', 'Ketua Pelaksana') `,
+      `INSERT INTO anggota_proker (idProker, idAnggota, peran) VALUES ('${id}', ${npm}, 'Ketua Pelaksana') `,
       (err, result) => {
         if (err) {
           reject(err);
@@ -864,6 +894,8 @@ route.post("/addProker", express.urlencoded(), async (req, res) => {
   if (namaP.length > 0 && isiP.length > 0) {
     await tambahProker(conn, idx, namaP, isiP, idDiv);
     await tambahKetuplak(conn, npm, idx);
+    await tambahProkerProp(conn, idx, namaP);
+    await tambahProkerRab(conn, idx, namaP);
   }
 });
 

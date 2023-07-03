@@ -45,7 +45,6 @@
                             <!-- Blok kode yang akan ditampilkan jika nilai adalah null -->
                             <form action="/uploadProp/<%= row.idProker %>" method="post" enctype="multipart/form-data">
                               <input type="hidden" name="id" value="<%= row.idProker %>">
-                              <a href="/uploadProp/<%= row.idProker %>"><%= row.idProker %></a>
                               <br>
                               <input type="file" name="fileUpload" accept=".pdf">
                               <input type="text" name="namaProp" placeholder="Masukkan Nama proposal">
