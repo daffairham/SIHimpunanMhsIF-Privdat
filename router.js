@@ -1840,7 +1840,7 @@ route.get("/isiProkerSekben/:id", express.urlencoded(), async (req, res) => {
 route.post("/isiProker", express.urlencoded(), async (req, res) => {
   const conn = await dbConnect();
   conn.release();
-  const id = req.body.id;
+  const id = req.body.idP;
   var nama = req.session.name;
   var noID = req.session.noID;
   var idRole = req.session.role;
