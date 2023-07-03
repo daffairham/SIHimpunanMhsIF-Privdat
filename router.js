@@ -46,8 +46,7 @@ const getStaffs = (conn) => {
 const getProkerTerdaftar = (conn, npm) => {
   return new Promise((resolve, reject) => {
     conn.query(
-      `SELECT * FROM proker inner join proposal ON proposal.idProker = proker.idProker
-        inner join rab ON  proker.idProker= rab.idProker JOIN anggota_proker ON proker.idProker = anggota_proker.idProker WHERE idAnggota = ${npm}`,
+      `select * from proker LEFT outer join proposal on proker.idProker = proposal.idProker join anggota_proker on anggota_proker.idProker = proker.IdProker where anggota_proker.IdAnggota = ${npm}`,
       (err, result) => {
         if (err) {
           reject(err);
@@ -1591,21 +1590,25 @@ const getCurrentRab = (conn, id) => {
 // Halaman isiProposal
 route.post('/uploadProp', upload.single('fileUpload'), express.urlencoded(), async (req, res) => {
     const conn = await dbConnect();
-    const idProker = req.body.id;
+    const idProker = req.body.idP;
+    console.log(idProker)
+    
     const namaProp = req.body.namaProp;
     const fileUpload = req.file;
     const fileData = {
-      idProp: idProker,
+      
       namaProp: namaProp,
       isiProp: fileUpload.name,
       idProker: idProker,
     };
-    conn.query(`UPDATE proposal SET isiProp = '${fileUpload.name}', namaProp = '${namaProp}' WHERE idProker = '${idProker}'`, fileData, (error, results) => {
+    conn.query(`INSERT INTO proposal (namaProp, statusPropKetua, statusPropSekben, isiProp, idProker) VALUES('${namaProp}', "PENDING", "PENDING", '${fileUpload.name}', '${idProker}')`, fileData, (error, results) => {
       if (error) {
         console.error(error);
+
       }
       res.redirect("/daftarProker");
     });
+    console.log(idProker)
 });
 
 route.post("/isiProp", express.urlencoded(), async (req, res) => {
