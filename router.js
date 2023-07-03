@@ -46,7 +46,7 @@ const getStaffs = (conn) => {
 const getProkerTerdaftar = (conn, npm) => {
   return new Promise((resolve, reject) => {
     conn.query(
-      `select * from proker LEFT outer join proposal on proker.idProker = proposal.idProker join anggota_proker on anggota_proker.idProker = proker.IdProker where anggota_proker.IdAnggota = ${npm}`,
+      `select proker.idProker, proker.namaProker, proker.statusProkKetua, proker.statusProkSekben, proposal.isiProp, rab.isiRab from proker LEFT outer join proposal on proker.idProker = proposal.idProker join anggota_proker on anggota_proker.idProker = proker.IdProker left outer join rab on proker.idProker = rab.idProker where anggota_proker.IdAnggota = ${npm}`,
       (err, result) => {
         if (err) {
           reject(err);
@@ -571,6 +571,7 @@ route.get("/daftarProker", express.urlencoded(), async (req, res) => {
   const npm = req.session.username;
   let results = await getProkerTerdaftar(conn, npm);
   const idTopik = req.body.aTopik;
+  const id = req.body.idP;
   const getName = req.query.filter;
   const nama = req.session.name;
   if (getName != undefined && getName.length) {
@@ -582,6 +583,7 @@ route.get("/daftarProker", express.urlencoded(), async (req, res) => {
           nama,
           idTopik,
           namaKomen,
+          id
         });
       } else {
         res.redirect("/daftarProkerAdmin");
@@ -621,7 +623,7 @@ route.get("/daftarProker", express.urlencoded(), async (req, res) => {
     res.redirect("/");
   }
   conn.release();
-  console.log(req.session);
+  console.log(results);
 });
 
 //daftar proker sekben
@@ -1588,9 +1590,9 @@ const getCurrentRab = (conn, id) => {
 };
 
 // Halaman isiProposal
-route.post('/uploadProp', upload.single('fileUpload'), express.urlencoded(), async (req, res) => {
+route.post('/uploadProp/:idProker', upload.single('fileUpload'), express.urlencoded(), async (req, res) => {
     const conn = await dbConnect();
-    const idProker = req.body.idP;
+    const idProker = req.params.idProker;
     console.log(idProker)
     
     const namaProp = req.body.namaProp;

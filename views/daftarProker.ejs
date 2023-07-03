@@ -41,35 +41,46 @@
                     </td>
 
                     <td class="nama_prop">
-                        <form action="/isiProp" method="post">
-                            <input type="hidden" name="id" value="<%= row.idProker %>">
-                            <br>
-                            <input type="submit" class="show_details" value="Lihat Isi">
-                        </form>
-                        <form action="/uploadProp" method="post" enctype="multipart/form-data">
-                            <input type="hidden" name="id" value="<%= row.idProker %>">
-                            <br>
-                            <input type="file" name="fileUpload" accept=".pdf">
-                            <input type="text" name="namaProp" placeholder="Masukkan Nama proposal">
-                            <br>
-                            <input type="submit" value="Upload">
-                        </form>
+                        <% if (row.isiProp === null) { %>
+                            <!-- Blok kode yang akan ditampilkan jika nilai adalah null -->
+                            <form action="/uploadProp/<%= row.idProker %>" method="post" enctype="multipart/form-data">
+                              <input type="hidden" name="id" value="<%= row.idProker %>">
+                              <a href="/uploadProp/<%= row.idProker %>"><%= row.idProker %></a>
+                              <br>
+                              <input type="file" name="fileUpload" accept=".pdf">
+                              <input type="text" name="namaProp" placeholder="Masukkan Nama proposal">
+                              <br>
+                              <input type="submit" value="Upload">
+                            </form>
+                          <% } else { %>
+                            <!-- Blok kode yang akan ditampilkan jika nilai bukan null -->
+                            <form action="/isiProp" method="post">
+                              <input type="hidden" name="id" value="<%= row.idProker %>">
+                              <br>
+                              <input type="submit" class="show_details" value="Lihat Isi">
+                            </form>
+                          <% } %>
                     </td>
 
                     <td class="nama_rab">
-                        <form action="/isiRab" method="post">
-                            <input type="hidden" name="id" value="<%= row.idProker %>">
-                            <br>
-                            <input type="submit" class="show_details" value="Lihat Isi">
-                        </form>
-                        <form action="/uploadRab" method="post" enctype="multipart/form-data">
-                            <input type="hidden" name="id" value="<%= row.idProker %>">
-                            <br>
-                            <input type="file" name="fileUpload" accept=".pdf">
-                            <input type="text" name="namaRab" placeholder="Masukkan Nama RAB">
-                            <br>
-                            <input type="submit" value="Upload">
-                        </form>
+                        <% if (row.isiRab === null) { %>
+                            <!-- Blok kode yang akan ditampilkan jika nilai adalah null -->
+                            <form action="/uploadRab" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="id" value="<%= row.idProker %>">
+                                <br>
+                                <input type="file" name="fileUpload" accept=".pdf">
+                                <input type="text" name="namaRab" placeholder="Masukkan Nama RAB">
+                                <br>
+                                <input type="submit" value="Upload">
+                            </form>
+                          <% } else { %>
+                            <!-- Blok kode yang akan ditampilkan jika nilai bukan null -->
+                            <form action="/isiRab" method="post">
+                                <input type="hidden" name="id" value="<%= row.idProker %>">
+                                <br>
+                                <input type="submit" class="show_details" value="Lihat Isi">
+                            </form>
+                          <% } %>
                     </td>
                 </tr>
                 <% } %>
