@@ -88,20 +88,5 @@
 
             </table>
         </div>
-        <div class="container_comment_luar">
-            <fieldset class="container_comment"> <b>Add Comment</b>
-                <form action="/addComentSekben" method="post">
-                    <select>
-                        <% for (const row of results){ %>
-                            <option><%= row.namaProker %></option>    
-                            <% } %>    
-                    </select>
-                    <textarea></textarea>
-                    
-                    <input type="submit" name="updateComment" class="gantiComment" onclick="redirect" value="Submit">
-                </form>
-                        
-            </fieldset>
-        </div>
     </body>
 </html>
