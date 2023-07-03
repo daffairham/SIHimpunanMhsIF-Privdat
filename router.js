@@ -46,7 +46,7 @@ const getStaffs = (conn) => {
 const getProkerTerdaftar = (conn, npm) => {
   return new Promise((resolve, reject) => {
     conn.query(
-      `select proker.idProker, proker.namaProker, proker.statusProkKetua, proker.statusProkSekben, proposal.statusPropKetua, proposal.statusPropSekben, proposal.isiProp, rab.isiRab, rab.statusRabKetua, rab.statusRabSekben from proker LEFT outer join proposal on proker.idProker = proposal.idProker join anggota_proker on anggota_proker.idProker = proker.IdProker left outer join rab on proker.idProker = rab.idProker where anggota_proker.IdAnggota = 19012 and (proker.statusProkKetua = 'ACCEPTED' or proker.statusProkSekben='ACCEPTED' or proker.statusProkKetua = 'PENDING' or proker.statusProkSekben='PENDING' or proposal.statusPropKetua = 'ACCEPTED' or proposal.statusPropKetua = 'REVISI' or rab.statusRabKetua = 'ACCEPTED' or rab.statusRabKetua = 'REVISI');`,
+      `select proker.idProker, proker.namaProker, proker.statusProkKetua, proker.statusProkSekben, proposal.statusPropKetua, proposal.statusPropSekben, proposal.isiProp, rab.isiRab, rab.statusRabKetua, rab.statusRabSekben from proker LEFT outer join proposal on proker.idProker = proposal.idProker join anggota_proker on anggota_proker.idProker = proker.IdProker left outer join rab on proker.idProker = rab.idProker where anggota_proker.IdAnggota = ${npm} and (proposal.statusPropKetua = 'APPROVED' or proposal.statusPropKetua = 'REVISI' or rab.statusRabKetua = 'APPROVED' or rab.statusRabKetua = 'REVISI'); `,
       (err, result) => {
         if (err) {
           reject(err);
