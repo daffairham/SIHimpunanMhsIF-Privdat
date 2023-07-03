@@ -1698,18 +1698,18 @@ route.get("/isiProp/:id", express.urlencoded(), async (req, res) => {
 });
 
 // Halaman isiRAB
-route.post('/uploadRab', upload.single('fileUpload'), express.urlencoded(), async (req, res) => {
+route.post('/uploadRab/:idProker', upload.single('fileUpload'), express.urlencoded(), async (req, res) => {
     const conn = await dbConnect();
     const idProker = req.body.id;
     const namaRab = req.body.namaRab;
     const fileUpload = req.file;
     const fileData = {
-      idRab: idProker,
+      
       namaRab: namaRab,
       isiRab: fileUpload.name,
       idProker: idProker,
     };
-    conn.query(`UPDATE rab SET isiRab = '${fileUpload.name}', namaRab = '${namaRab}' WHERE idProker = '${idProker}'`, fileData, (error, results) => {
+    conn.query(`INSERT INTO rab (namaRab, statusRabKetua, statusRabSekben, isiRab, idProker) VALUES('${namaRab}', "PENDING", "PENDING", '${fileUpload.name}', '${idProker}')`, fileData, (error, results) => {
       if (error) {
         console.error(error);
       }

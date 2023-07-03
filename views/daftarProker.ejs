@@ -22,6 +22,10 @@
             <tr>
                 <th class="nama_proker">Nama Proker</th>
 
+                <th class="view">Status Proposal Ketua</th>
+                <th class="view">Status Proposal Sekben</th>
+                <th class="view">Status RAB Ketua</th>
+                <th class="view">Status RAB Sekben</th>
                 <th class="view">Proposal</th>
                 <th class="view">RAB</th>
             </tr>
@@ -39,6 +43,11 @@
                             <input type="submit" class="show_details" value="Click to Show Details">
                         </form>
                     </td>
+                    
+                    <td class="status_proker"><%= row.statusPropKetua %></td>
+                    <td class="status_proker"><%= row.statusPropSekben %></td>
+                    <td class="status_proker"><%= row.statusRabKetua %></td>
+                    <td class="status_proker"><%= row.statusRabSekben %></td>
 
                     <td class="nama_prop">
                         <% if (row.isiProp === null) { %>
@@ -51,6 +60,24 @@
                               <br>
                               <input type="submit" value="Upload">
                             </form>
+                            <% } else if (row.statusPropKetua === 'REVISI' ) { %>
+                                <form action="/uploadProp/<%= row.idProker %>" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="id" value="<%= row.idProker %>">
+                                    <br>
+                                    <input type="file" name="fileUpload" accept=".pdf">
+                                    <input type="text" name="namaProp" placeholder="Masukkan Nama proposal">
+                                    <br>
+                                    <input type="submit" value="Upload">
+                                </form>
+                                <% } else if (row.statusPropSekben === 'REVISI' ) { %>
+                                    <form action="/uploadProp/<%= row.idProker %>" method="post" enctype="multipart/form-data">
+                                        <input type="hidden" name="id" value="<%= row.idProker %>">
+                                        <br>
+                                        <input type="file" name="fileUpload" accept=".pdf">
+                                        <input type="text" name="namaProp" placeholder="Masukkan Nama proposal">
+                                        <br>
+                                        <input type="submit" value="Upload">
+                                    </form>
                           <% } else { %>
                             <!-- Blok kode yang akan ditampilkan jika nilai bukan null -->
                             <form action="/isiProp" method="post">
@@ -72,6 +99,24 @@
                                 <br>
                                 <input type="submit" value="Upload">
                             </form>
+                            <% } else if (row.statusRabKetua === 'REVISI' ) { %>
+                                <form action="/uploadRab/<%= row.idProker %>" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="id" value="<%= row.idProker %>">
+                                    <br>
+                                    <input type="file" name="fileUpload" accept=".pdf">
+                                    <input type="text" name="namaRab" placeholder="Masukkan Nama proposal">
+                                    <br>
+                                    <input type="submit" value="Upload">
+                                </form>
+                                <% } else if (row.statusRabSekben === 'REVISI' ) { %>
+                                    <form action="/uploadRab/<%= row.idProker %>" method="post" enctype="multipart/form-data">
+                                        <input type="hidden" name="id" value="<%= row.idProker %>">
+                                        <br>
+                                        <input type="file" name="fileUpload" accept=".pdf">
+                                        <input type="text" name="namaRab" placeholder="Masukkan Nama proposal">
+                                        <br>
+                                        <input type="submit" value="Upload">
+                                    </form>
                           <% } else { %>
                             <!-- Blok kode yang akan ditampilkan jika nilai bukan null -->
                             <form action="/isiRab" method="post">
