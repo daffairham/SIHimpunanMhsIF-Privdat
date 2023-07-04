@@ -1343,7 +1343,7 @@ route.post("/gantiRabSekben", express.urlencoded(), async (req, res) => {
   const conn = await dbConnect();
   const ubahStat = req.body.gantiStat;
   const idProker = req.body.noTopik;
-  var sql = `UPDATE rab SET statusRabSekbena = '${ubahStat}' WHERE idProker ='${idProker}'`;
+  var sql = `UPDATE rab SET statusRabSekben = '${ubahStat}' WHERE idProker ='${idProker}'`;
   if (ubahStat == "APPROVED" || ubahStat == "REVISI" || ubahStat == "PENDING") {
     conn.query(sql, [ubahStat, idProker], () => {
       res.redirect("/daftarProkerSekben");
