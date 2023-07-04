@@ -1267,6 +1267,18 @@ route.post("/daftarTopik", express.urlencoded(), async (req, res) => {
   }
 });
 
+route.post("/daftarUser2", express.urlencoded(), async (req, res) => {
+  const conn = await dbConnect();
+  const idProker = req.body.npm;
+  var sql = `DELETE FROM users WHERE npm ='${idProker}'`;
+    conn.query(sql, [idProker], () => {
+      res.redirect("/daftarUser");
+      console.log(idProker)
+      res.end();
+    });
+  }
+);
+
 route.post("/gantiPropKetua", express.urlencoded(), async (req, res) => {
   const conn = await dbConnect();
   const ubahStat = req.body.gantiStat;
