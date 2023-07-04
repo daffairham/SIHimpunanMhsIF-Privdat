@@ -17,7 +17,7 @@ const upload = multer({ dest: 'uploads/' });
 
 const getProker = (conn) => {
   return new Promise((resolve, reject) => {
-    conn.query("SELECT * FROM proker", (err, result) => {
+    conn.query("SELECT * FROM proker LEFT OUTER JOIN proposal ON proker.idProker = proposal.idProker LEFT OUTER JOIN rab ON proker.idProker", (err, result) => {
       if (err) {
         reject(err);
       } else {
@@ -132,7 +132,7 @@ const getProkerKordiv = (conn, idDiv) => {
 const getProkerSekben = (conn) => {
   return new Promise((resolve, reject) => {
     conn.query(
-      `SELECT * FROM proker WHERE statusProkSekben = "PENDING" `,
+      `SELECT * FROM proker JOIN proposal ON proker.idProker = proposal.idProker JOIN rab ON proker.idProker = WHERE statusProkSekben = "PENDING" `,
       (err, result) => {
         if (err) {
           reject(err);
@@ -664,7 +664,6 @@ route.get("/daftarProkerSekben", express.urlencoded(), async (req, res) => {
   const getName = req.query.filter;
   const nama = req.session.name;
   if (getName != undefined && getName.length) {
-    results = await getTopikFilter(conn, getName);
     if (req.session.loggedin) {
       if (req.session.role == 2) {
         res.render("daftarProkerSekben", {
@@ -1252,13 +1251,13 @@ route.get("/daftarTopik3", express.urlencoded(), async (req, res) => {
   conn.release();
 });
 
-//mengubah status skripsi
+//mengubah status proker bagi ketua himpunan
 route.post("/daftarTopik", express.urlencoded(), async (req, res) => {
   const conn = await dbConnect();
   const ubahStat = req.body.gantiStat;
   const idProker = req.body.noTopik;
-  var sql = `UPDATE proker SET statusProk = '${ubahStat}' WHERE idProker ='${idProker}'`;
-  if (ubahStat == "DITERIMA" || ubahStat == "REVISI" || ubahStat == "PENDING") {
+  var sql = `UPDATE proker SET statusProkKetua = '${ubahStat}' WHERE idProker ='${idProker}'`;
+  if (ubahStat == "APPROVED" || ubahStat == "REVISI" || ubahStat == "PENDING") {
     conn.query(sql, [ubahStat, idProker], () => {
       res.redirect("/daftarProkerAdmin");
       res.end();
@@ -1267,6 +1266,82 @@ route.post("/daftarTopik", express.urlencoded(), async (req, res) => {
     res.send("Data Error");
   }
 });
+
+route.post("/gantiPropKetua", express.urlencoded(), async (req, res) => {
+  const conn = await dbConnect();
+  const ubahStat = req.body.gantiStat;
+  const idProker = req.body.noTopik;
+  var sql = `UPDATE proposal SET statusPropKetua = '${ubahStat}' WHERE idProker ='${idProker}'`;
+  if (ubahStat == "APPROVED" || ubahStat == "REVISI" || ubahStat == "PENDING") {
+    conn.query(sql, [ubahStat, idProker], () => {
+      res.redirect("/daftarProkerAdmin");
+      res.end();
+    });
+  } else {
+    res.send("Data Error");
+  }
+});
+
+route.post("/gantiRabKetua", express.urlencoded(), async (req, res) => {
+  const conn = await dbConnect();
+  const ubahStat = req.body.gantiStat;
+  const idProker = req.body.noTopik;
+  var sql = `UPDATE rab SET statusRabKetua = '${ubahStat}' WHERE idProker ='${idProker}'`;
+  if (ubahStat == "APPROVED" || ubahStat == "REVISI" || ubahStat == "PENDING") {
+    conn.query(sql, [ubahStat, idProker], () => {
+      res.redirect("/daftarProkerAdmin");
+      res.end();
+    });
+  } else {
+    res.send("Data Error");
+  }
+});
+
+route.post("/daftarTopik2", express.urlencoded(), async (req, res) => {
+  const conn = await dbConnect();
+  const ubahStat = req.body.gantiStat;
+  const idProker = req.body.noTopik;
+  var sql = `UPDATE proker SET statusProkSekben = '${ubahStat}' WHERE idProker ='${idProker}'`;
+  if (ubahStat == "APPROVED" || ubahStat == "REVISI" || ubahStat == "PENDING") {
+    conn.query(sql, [ubahStat, idProker], () => {
+      res.redirect("/daftarProkerSekben");
+      res.end();
+    });
+  } else {
+    res.send("Data Error");
+  }
+});
+
+route.post("/gantiPropSekben", express.urlencoded(), async (req, res) => {
+  const conn = await dbConnect();
+  const ubahStat = req.body.gantiStat;
+  const idProker = req.body.noTopik;
+  var sql = `UPDATE proposal SET statusPropSekben = '${ubahStat}' WHERE idProker ='${idProker}'`;
+  if (ubahStat == "APPROVED" || ubahStat == "REVISI" || ubahStat == "PENDING") {
+    conn.query(sql, [ubahStat, idProker], () => {
+      res.redirect("/daftarProkerSekben");
+      res.end();
+    });
+  } else {
+    res.send("Data Error");
+  }
+});
+
+route.post("/gantiRabSekben", express.urlencoded(), async (req, res) => {
+  const conn = await dbConnect();
+  const ubahStat = req.body.gantiStat;
+  const idProker = req.body.noTopik;
+  var sql = `UPDATE rab SET statusRabSekbena = '${ubahStat}' WHERE idProker ='${idProker}'`;
+  if (ubahStat == "APPROVED" || ubahStat == "REVISI" || ubahStat == "PENDING") {
+    conn.query(sql, [ubahStat, idProker], () => {
+      res.redirect("/daftarProkerSekben");
+      res.end();
+    });
+  } else {
+    res.send("Data Error");
+  }
+});
+
 
 //delete topik
 route.post("/daftarTopik3", express.urlencoded(), async (req, res) => {
