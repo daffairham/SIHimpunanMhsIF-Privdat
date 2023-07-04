@@ -132,7 +132,7 @@ const getProkerKordiv = (conn, idDiv) => {
 const getProkerSekben = (conn) => {
   return new Promise((resolve, reject) => {
     conn.query(
-      `SELECT * FROM proker JOIN proposal ON proker.idProker = proposal.idProker JOIN rab ON proker.idProker = WHERE statusProkSekben = "PENDING" `,
+      `SELECT * FROM proker JOIN proposal ON proker.idProker = proposal.idProker JOIN rab ON proker.idProker `,
       (err, result) => {
         if (err) {
           reject(err);
