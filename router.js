@@ -17,7 +17,7 @@ const upload = multer({ dest: 'uploads/' });
 
 const getProker = (conn) => {
   return new Promise((resolve, reject) => {
-    conn.query("SELECT * FROM proker LEFT OUTER JOIN proposal ON proker.idProker = proposal.idProker LEFT OUTER JOIN rab ON proker.idProker", (err, result) => {
+    conn.query("SELECT * FROM proker LEFT OUTER JOIN proposal ON proker.idProker = proposal.idProker LEFT OUTER JOIN rab ON proker.idProker = rab.idProker", (err, result) => {
       if (err) {
         reject(err);
       } else {
