@@ -55,10 +55,10 @@
                             <form action="/uploadProp/<%= row.idProker %>" method="post" enctype="multipart/form-data">
                               <input type="hidden" name="id" value="<%= row.idProker %>">
                               <br>
-                              <input type="file" name="fileUpload" accept=".pdf">
-                              <input type="text" name="namaProp" placeholder="Masukkan Nama proposal">
+                              <input type="file" class="uploadField" name="fileUpload" accept=".pdf">
+                              <input type="text" class="button2"name="namaProp" placeholder="Masukkan Nama proposal">
                               <br>
-                              <input type="submit" value="Upload">
+                              <input type="submit" class="button2"value="Upload">
                             </form>
                             <% } else if (row.statusPropKetua === 'REVISI' ) { %>
                                 <form action="/uploadProp/<%= row.idProker %>" method="post" enctype="multipart/form-data">

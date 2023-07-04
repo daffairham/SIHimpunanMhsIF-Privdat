@@ -13,44 +13,46 @@
             <%- include('./layout/header.ejs') %>
         </header>
     
-        <div class="kelolaAkunContainer">
+        <!-- <div class="kelolaAkunContainer">
             <div class="kelolaAkunTop">
                 <a href="http://localhost:8080/daftarUser">
                     <img src="/assets/images/leftArrow.png" alt="">
                 </a>
                 <h1>Tambah Anggota</h1>
-            </div>
+            </div> -->
     
             <br>
-    
-            <div class="kelolaAkunMains">
-                    <div class="innerMain">
-                            <div class="innerMain1">
-                                <form action="/addStaff/" method="post">
-                                    <fieldset>
-                                        
-                                        <h3>Lengkapi Informasi Akun yang Ingin Ditambahkan</h3>
-                                        <label for=""> Pilih Staff</label>
-                                        <select name="addNama" id="">
-                                            <% for (const row of staffs) { %>
-                                            <option value=<%= row.NPM %>><%= row.nama %></option>
-                                            <% } %>
-                                        </select>
-                                        
-                                        <label for=""> Jabatan</label>
-                                        <select name="Roles" id="">
-                                            <option value="Sekretaris / Bendahara">Sekretaris / Bendahara</option>
-                                            <option value="Staff">Staff</option>
-                                        </select>
-                                        <% for (const row of results) { %>
-                                        <input type="hidden" name ="id" value="<%= row.idProker %>">
+            
+            <div class="kelolaAkunMain">
+                <h1>Tambah Anggota</h1>
+
+                    <!-- <div class="innerMain"> -->
+                        <!-- <div class="innerMain"> -->
+                            <form action="/addStaff/" method="post">
+                                <fieldset>
+                                    
+                                    <h3>Lengkapi Informasi Akun yang Ingin Ditambahkan</h3>
+                                    <label for=""> Pilih Staff</label>
+                                    <select name="addNama" id="">
+                                        <% for (const row of staffs) { %>
+                                        <option value=<%= row.NPM %>><%= row.nama %></option>
                                         <% } %>
-                                        <input type="submit" id="gantiNama" value="Tambah User">
-                                    </fieldset>
-                                </form>
-                            </div>
+                                    </select>
+                                    
+                                    <label for=""> Jabatan</label>
+                                    <select name="Roles" id="">
+                                        <option value="Sekretaris / Bendahara">Sekretaris / Bendahara</option>
+                                        <option value="Staff">Staff</option>
+                                    </select>
+                                    <% for (const row of results) { %>
+                                    <input type="hidden" name ="id" value="<%= row.idProker %>">
+                                    <% } %>
+                                    <input type="submit" id="gantiNama" value="Tambah User">
+                                </fieldset>
+                            </form>
+                        <!-- </div> -->
                             
-                    </div>
+                    <!-- </div> -->
             </div>
         
     

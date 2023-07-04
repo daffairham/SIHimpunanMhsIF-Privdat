@@ -157,6 +157,14 @@ fieldset{
     background-color: lightblue;
 }
 
+.addIsi{
+    height: 25%;
+    padding: 2%;
+}
 
-
+.addProker{
+    height: 25%;
+    padding: 2%;
+    font-style: bold;
+}
 

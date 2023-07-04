@@ -77,14 +77,42 @@ td a:hover{
     width: 25%;
     margin: auto;
 }
-#detail_proker{
-    width: 25%;
-    padding: 2%;
-    margin: auto;
+.show_details{
+    padding: 3%;
+    font-size: large;
+    border-radius: 25px;
+    border: none;
+    background-color: aliceblue;
+}
+.show_details:hover{
+    background-color: #60c1ce;
 }
 .tambahanggota{
+    
     background-color: aliceblue;
     border-radius: 15px;
     padding: 10%;
     display: block;
+}
+
+.isi{
+    margin: 2%;
+    padding: 10%;
+}
+
+.button2{
+    padding: 2%;
+    border: none;
+    border-radius: 25px;
+    font-size: large;
+    background-color: aliceblue;
+}
+
+.button2:hover{
+    background-color: #60c1ce;
+}
+
+.uploadField{
+    border: none;
+    font-size: large;
 }
