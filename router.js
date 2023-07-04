@@ -1722,7 +1722,7 @@ route.post('/uploadProp/:idProker', upload.single('fileUpload'), express.urlenco
       isiProp: fileUpload.name,
       idProker: idProker,
     };
-    conn.query(`INSERT INTO proposal (namaProp, statusPropKetua, statusPropSekben, isiProp, idProker) VALUES('${namaProp}', "PENDING", "PENDING", '${fileUpload.name}', '${idProker}')`, fileData, (error, results) => {
+    conn.query(`UPDATE proposal SET isiProp = '${fileUpload.name}', namaProp = '${namaProp}' WHERE idProker = '${idProker}''${fileUpload.name}', '${idProker}')`, fileData, (error, results) => {
       if (error) {
         console.error(error);
 
@@ -1796,7 +1796,7 @@ route.post('/uploadRab/:idProker', upload.single('fileUpload'), express.urlencod
       isiRab: fileUpload.name,
       idProker: idProker,
     };
-    conn.query(`INSERT INTO rab (namaRab, statusRabKetua, statusRabSekben, isiRab, idProker) VALUES('${namaRab}', "PENDING", "PENDING", '${fileUpload.name}', '${idProker}')`, fileData, (error, results) => {
+    conn.query(`UPDATE rab SET isiRab = '${fileUpload.name}', namaRab = '${namaRab}' WHERE idProker = '${idProker}' '${fileUpload.name}', '${idProker}')`, fileData, (error, results) => {
       if (error) {
         console.error(error);
       }
