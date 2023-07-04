@@ -64,7 +64,13 @@
                         </form>
                         
                     </td>
-                    <td class="view add_anggota"><a href="/addStaff/<%= row.idProker %>">Add Anggota</a></td>
+                    <td class="view add_anggota">
+                        <form action="/addStaff/<%= row.idProker %>" method="get">
+                            <input type="hidden" name="id" value="<%= row.idProker %>">
+                            <br>
+                            <input type="submit" class="show_details isi" value="Tambah Anggota">
+                        </form>
+                    </td>
                 </tr>
                 <% } %>
                 

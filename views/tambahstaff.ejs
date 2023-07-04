@@ -24,15 +24,15 @@
             <br>
             
             <div class="kelolaAkunMain">
-                <h1>Tambah Anggota</h1>
+                <h1>Tambah Anggota </h1>
 
                     <!-- <div class="innerMain"> -->
                         <!-- <div class="innerMain"> -->
                             <form action="/addStaff/" method="post">
                                 <fieldset>
-                                    
-                                    <h3>Pilih Anggota Himpunan untuk ditambahkan menjadi anggota kepanitiaan</h3>
-                                    
+                                    <% for (const row of results) { %>
+                                    <h3>Pilih Anggota Himpunan untuk ditambahkan menjadi anggota kepanitiaan untuk <%= row.namaProker %></h3>
+                                    <% } %>
                                     <label for=""> Pilih Staff</label>
                                     <select name="addNama" id="">
                                         <% for (const row of staffs) { %>
@@ -47,6 +47,7 @@
                                     </select>
                                     <% for (const row of results) { %>
                                     <input type="hidden" name ="id" value="<%= row.idProker %>">
+                                    
                                     <% } %>
                                     <input type="submit" id="gantiNama" value="Tambah User">
                                 </fieldset>

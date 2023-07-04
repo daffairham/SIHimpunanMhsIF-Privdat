@@ -100,7 +100,7 @@ const getStaffProker = (conn, id) => {
         ORDER BY
         CASE anggota_proker.peran
         WHEN 'ketua pelaksana' THEN 1
-        WHEN 'sekretaris/bendahara' THEN 2
+        WHEN 'sekretaris / bendahara' THEN 2
         WHEN 'staff' THEN 3
         END;`,
       (err, result) => {
@@ -114,10 +114,10 @@ const getStaffProker = (conn, id) => {
   });
 };
 
-const getProkerKordiv = (conn, idDiv) => {
+const getProkerKordiv = (conn, npm) => {
   return new Promise((resolve, reject) => {
     conn.query(
-      `SELECT * FROM proker left outer join proposal on proker.idProker = proposal.idProker left outer join rab on rab.idProker = proker.idProker  WHERE idDivisi = ${idDiv} `,
+      `SELECT * FROM proker left outer join proposal on proker.idProker = proposal.idProker left outer join rab on rab.idProker = proker.idProker join anggota_proker on proker.idProker = anggota_proker.IdProker join users on anggota_proker.IdAnggota = users.NPM WHERE NPM = ${npm} `,
       (err, result) => {
         if (err) {
           reject(err);
@@ -599,7 +599,7 @@ route.get("/home", async (req, res) => {
 route.get("/daftarProker", express.urlencoded(), async (req, res) => {
   const conn = await dbConnect();
   const npm = req.session.username;
-  let results = await getProkerTerdaftar(conn, npm);
+  let results = await getProkerKordiv(conn, npm);
   const idTopik = req.body.aTopik;
   const id = req.body.idP;
   const getName = req.query.filter;
@@ -736,7 +736,7 @@ route.get("/daftarProkerAdmin", express.urlencoded(), async (req, res) => {
 
 //daftar proker kordiv
 route.get("/daftarProkerKordiv", express.urlencoded(), async (req, res) => {
-  const idDiv = req.session.role;
+  const idDiv = req.session.username;
   const conn = await dbConnect();
   let results = await getProkerKordiv(conn, idDiv);
   const idTopik = req.body.aTopik;
@@ -1999,12 +1999,13 @@ route.post("/addStaff/", express.urlencoded(), async (req, res) => {
     req.flash("message", "anda harus login terlebih dahulu");
     res.redirect("/");
   }
+  console.log(id)
 });
 
 route.get("/addStaff/:id", express.urlencoded(), async (req, res) => {
   const conn = await dbConnect();
   const id = req.params.id;
-  let results = await getProker(conn, id);
+  let results = await getProkerIdAdmin(conn, id);
   let staffs = await getStaffs(conn, id);
   var idRole = req.session.role;
   if (req.session.loggedin) {
@@ -2025,5 +2026,4 @@ route.get("/addStaff/:id", express.urlencoded(), async (req, res) => {
     res.redirect("/");
   }
   conn.release();
-  console.log(id);
 });
