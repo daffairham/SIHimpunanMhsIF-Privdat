@@ -116,3 +116,11 @@ td a:hover{
     border: none;
     font-size: large;
 }
+
+.valueStat{
+    padding: 3%;
+    margin: 5%;
+    border: none;
+    border-radius: 25px;
+    background-color: aliceblue;
+}

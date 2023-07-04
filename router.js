@@ -117,7 +117,7 @@ const getStaffProker = (conn, id) => {
 const getProkerKordiv = (conn, idDiv) => {
   return new Promise((resolve, reject) => {
     conn.query(
-      `SELECT * FROM proker WHERE idDivisi = ${idDiv} `,
+      `SELECT * FROM proker left outer join proposal on proker.idProker = proposal.idProker left outer join rab on rab.idProker = proker.idProker  WHERE idDivisi = ${idDiv} `,
       (err, result) => {
         if (err) {
           reject(err);
