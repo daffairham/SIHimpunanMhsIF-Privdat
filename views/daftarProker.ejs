@@ -55,56 +55,56 @@
                             <form action="/uploadProp/<%= row.idProker %>" method="post" enctype="multipart/form-data">
                               <input type="hidden" name="id" value="<%= row.idProker %>">
                               <br>
-                              <input type="file" class="uploadField" name="fileUpload" accept=".pdf">
-                              <input type="text" class="button2"name="namaProp" placeholder="Masukkan Nama proposal">
+                              <input type="file" class="uploadField button2" name="fileUpload" accept=".pdf">
+                              <input type="text" class="button2" name="namaProp" placeholder="Masukkan Nama proposal">
                               <br>
-                              <input type="submit" class="button2"value="Upload">
+                              <input type="submit" class="button2" value="Upload">
                             </form>
                             <% } else if (row.statusPropKetua === 'PENDING' ) { %>
                                 <form action="/uploadProp/<%= row.idProker %>" method="post" enctype="multipart/form-data">
                                     <input type="hidden" name="id" value="<%= row.idProker %>">
                                     <br>
-                                    <input type="file" name="fileUpload" accept=".pdf">
-                                    <input type="text" name="namaProp" placeholder="Masukkan Nama proposal">
+                                    <input type="file" class="button2" name="fileUpload" accept=".pdf">
+                                    <input type="text" class="button2" name="namaProp" placeholder="Masukkan Nama proposal">
                                     <br>
-                                    <input type="submit" value="Upload">
+                                    <input type="submit" class="button2" value="Upload">
                                 </form>
                                 <% } else if (row.statusPropSekben === 'PENDING' ) { %>
                                     <form action="/uploadProp/<%= row.idProker %>" method="post" enctype="multipart/form-data">
                                         <input type="hidden" name="id" value="<%= row.idProker %>">
                                         <br>
-                                        <input type="file" name="fileUpload" accept=".pdf">
-                                        <input type="text" name="namaProp" placeholder="Masukkan Nama proposal">
+                                        <input type="file" class="button2" name="fileUpload" accept=".pdf">
+                                        <input type="text" class="button2" name="namaProp" placeholder="Masukkan Nama proposal">
                                         <br>
-                                        <input type="submit" value="Upload">
+                                        <input type="submit" class="button2" value="Upload">
                                     </form>
                                     <% } else if (row.statusPropKetua === 'REVISI' ) { %>
                                         <form action="/uploadProp/<%= row.idProker %>" method="post" enctype="multipart/form-data">
                                             <input type="hidden" name="id" value="<%= row.idProker %>">
                                             <br>
-                                            <input type="file" name="fileUpload" accept=".pdf">
-                                            <input type="text" name="namaProp" placeholder="Masukkan Nama proposal">
+                                            <input type="file" class="button2" name="fileUpload" accept=".pdf">
+                                            <input type="text" class="button2" name="namaProp" placeholder="Masukkan Nama proposal">
                                             <br>
-                                            <input type="submit" value="Upload">
+                                            <input type="submit" class="button2" value="Upload">
                                         </form>
                                         <form action="/isiProp" method="post">
                                             <input type="hidden" name="id" value="<%= row.idProker %>">
                                             <br>
-                                            <input type="submit" class="show_details" value="Lihat Isi">
+                                            <input type="submit" class="button2" class="show_details" value="Lihat Isi">
                                           </form>
                                           <% } else if (row.statusPropSekben === 'REVISI' ) { %>
                                             <form action="/uploadProp/<%= row.idProker %>" method="post" enctype="multipart/form-data">
                                                 <input type="hidden" name="id" value="<%= row.idProker %>">
                                                 <br>
-                                                <input type="file" name="fileUpload" accept=".pdf">
-                                                <input type="text" name="namaProp" placeholder="Masukkan Nama proposal">
+                                                <input type="file" class="button2" name="fileUpload" accept=".pdf">
+                                                <input type="text" class="button2" name="namaProp" placeholder="Masukkan Nama proposal">
                                                 <br>
-                                                <input type="submit" value="Upload">
+                                                <input type="submit" class="button2" value="Upload">
                                             </form>
                                             <form action="/isiProp" method="post">
                                                 <input type="hidden" name="id" value="<%= row.idProker %>">
                                                 <br>
-                                                <input type="submit" class="show_details" value="Lihat Isi">
+                                                <input type="submit" class="button2" class="show_details" value="Lihat Isi">
                                               </form>
                           <% } else { %>
                             <!-- Blok kode yang akan ditampilkan jika nilai bukan null -->
@@ -122,56 +122,56 @@
                             <form action="/uploadRab" method="post" enctype="multipart/form-data">
                                 <input type="hidden" name="id" value="<%= row.idProker %>">
                                 <br>
-                                <input type="file" name="fileUpload" accept=".pdf">
-                                <input type="text" name="namaRab" placeholder="Masukkan Nama RAB">
+                                <input type="file" class="button2" name="fileUpload" accept=".pdf">
+                                <input type="text" class="button2" name="namaRab" placeholder="Masukkan Nama RAB">
                                 <br>
-                                <input type="submit" value="Upload">
+                                <input type="submit" class="button2" value="Upload">
                             </form>
                             <% } else if (row.statusRabKetua === 'PENDING' ) { %>
                                 <form action="/uploadRab/<%= row.idProker %>" method="post" enctype="multipart/form-data">
                                     <input type="hidden" name="id" value="<%= row.idProker %>">
                                     <br>
-                                    <input type="file" name="fileUpload" accept=".pdf">
-                                    <input type="text" name="namaRab" placeholder="Masukkan Nama proposal">
+                                    <input type="file" class="button2" name="fileUpload" accept=".pdf">
+                                    <input type="text" class="button2" name="namaRab" placeholder="Masukkan Nama proposal">
                                     <br>
-                                    <input type="submit" value="Upload">
+                                    <input type="submit" class="button2" value="Upload">
                                 </form>
                                 <% } else if (row.statusRabSekben === 'PENDING' ) { %>
                                     <form action="/uploadRab/<%= row.idProker %>" method="post" enctype="multipart/form-data">
                                         <input type="hidden" name="id" value="<%= row.idProker %>">
                                         <br>
-                                        <input type="file" name="fileUpload" accept=".pdf">
-                                        <input type="text" name="namaRab" placeholder="Masukkan Nama proposal">
+                                        <input type="file" class="button2" name="fileUpload" accept=".pdf">
+                                        <input type="text" class="button2" name="namaRab" placeholder="Masukkan Nama proposal">
                                         <br>
-                                        <input type="submit" value="Upload">
+                                        <input type="submit" class="button2" value="Upload">
                                     </form>
                                     <% } else if (row.statusRabKetua === 'REVISI' ) { %>
                                         <form action="/uploadRab/<%= row.idProker %>" method="post" enctype="multipart/form-data">
                                             <input type="hidden" name="id" value="<%= row.idProker %>">
                                             <br>
-                                            <input type="file" name="fileUpload" accept=".pdf">
-                                            <input type="text" name="namaRab" placeholder="Masukkan Nama proposal">
+                                            <input type="file" class="button2" name="fileUpload" accept=".pdf">
+                                            <input type="text" class="button2" name="namaRab" placeholder="Masukkan Nama proposal">
                                             <br>
-                                            <input type="submit" value="Upload">
+                                            <input type="submit" class="button2" value="Upload">
                                         </form>
                                         <form action="/isiRab" method="post">
                                             <input type="hidden" name="id" value="<%= row.idProker %>">
                                             <br>
-                                            <input type="submit" class="show_details" value="Lihat Isi">
+                                            <input type="submit" class="button2" class="show_details" value="Lihat Isi">
                                         </form>
                                         <% } else if (row.statusRabSekben === 'REVISI' ) { %>
                                             <form action="/uploadRab/<%= row.idProker %>" method="post" enctype="multipart/form-data">
                                                 <input type="hidden" name="id" value="<%= row.idProker %>">
                                                 <br>
-                                                <input type="file" name="fileUpload" accept=".pdf">
-                                                <input type="text" name="namaRab" placeholder="Masukkan Nama proposal">
+                                                <input type="file" class="button2" name="fileUpload" accept=".pdf">
+                                                <input type="text" class="button2" name="namaRab" placeholder="Masukkan Nama proposal">
                                                 <br>
-                                                <input type="submit" value="Upload">
+                                                <input type="submit" class="button2" value="Upload">
                                             </form>
                                             <form action="/isiRab" method="post">
                                                 <input type="hidden" name="id" value="<%= row.idProker %>">
                                                 <br>
-                                                <input type="submit" class="show_details" value="Lihat Isi">
+                                                <input type="submit" class="button2" class="show_details" value="Lihat Isi">
                                             </form>
                           <% } else { %>
                             <!-- Blok kode yang akan ditampilkan jika nilai bukan null -->
